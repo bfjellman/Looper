@@ -19,4 +19,13 @@
         android:id="@+id/login_button"
         android:layout_centerInParent="true"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/login_value"
+        android:layout_below="@+id/login_button"
+        android:layout_marginTop="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"/>
+
 </RelativeLayout>

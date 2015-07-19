@@ -2,17 +2,15 @@ package org.mckayscience.looper;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
-import android.support.v7.app.ActionBarActivity;
+
+import android.media.tv.TvInputService;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -20,16 +18,15 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 
 public class MainActivity extends Activity {
 
     private TextView info;
+    private TextView loggedIn;
     private LoginButton loginButton;
 
     private CallbackManager callbackManager;
+    private AccessToken accessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +35,26 @@ public class MainActivity extends Activity {
         callbackManager = CallbackManager.Factory.create();
 
         setContentView(R.layout.activity_main);
+
+        //check if user is already logged in
+        accessToken = AccessToken.getCurrentAccessToken();
+        if(accessToken != null) {
+            Intent i = new Intent(getApplicationContext(), MainMenu.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+            finish();
+        }
+
         info = (TextView)findViewById(R.id.info);
+
+        loggedIn = (TextView)findViewById(R.id.login_value);
         loginButton = (LoginButton)findViewById(R.id.login_button);
 
+
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+
+
+
             @Override
             public void onSuccess(LoginResult loginResult) {
 
@@ -49,6 +62,12 @@ public class MainActivity extends Activity {
                 + "\n" +
                 "Auth Token: " +
                 loginResult.getAccessToken().getToken());
+                Intent i;
+                i = new Intent(getApplicationContext(), MainMenu.class);
+
+
+                startActivity(i);
+                finish();
 
             }
 
@@ -64,6 +83,7 @@ public class MainActivity extends Activity {
                 info.setText("Login attempt canceled");
 
             }
+
         });
     }
 
@@ -92,5 +112,9 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public CallbackManager getCallbackManager() {
+        return callbackManager;
     }
 }

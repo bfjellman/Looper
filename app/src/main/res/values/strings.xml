@@ -5,4 +5,6 @@
     <string name="action_settings">Settings</string>
 
     <string name="facebook_app_id">461895427316604</string>
+    <string name="title_activity_main_menu">MainMenu</string>
+    <string name="title_activity_looper">LooperActivity</string>
 </resources>
