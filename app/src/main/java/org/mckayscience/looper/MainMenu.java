@@ -1,5 +1,6 @@
 package org.mckayscience.looper;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -19,7 +20,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
 
-public class MainMenu extends ActionBarActivity {
+public class MainMenu extends Activity {
 
     private LoginButton loginButton;
     private CallbackManager callbackManager;
@@ -55,6 +56,14 @@ public class MainMenu extends ActionBarActivity {
     public void createSong_onClick(View v) {
         Intent i = new Intent(getApplicationContext(), LooperActivity.class);
         startActivity(i);
+    }
+
+    public void loadSong_onClick(View v) {
+
+    }
+
+    public void shareSong_onClick(View v) {
+
     }
 
     @Override

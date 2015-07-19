@@ -29,8 +29,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Menu"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:onClick="toMenu_OnClick"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
-        android:onClick="toMenu"/>
+        android:onClick="save_OnClick"/>
 
 </RelativeLayout>

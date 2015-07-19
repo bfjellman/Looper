@@ -44,7 +44,7 @@
         android:layout_below="@+id/load_Btn_ID"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:onClick="shareSong_OnClick" />
+        android:onClick="shareSong_onClick" />
 
     <com.facebook.login.widget.LoginButton
         android:layout_width="wrap_content"

@@ -2,6 +2,7 @@ package org.mckayscience.looper;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Environment;
@@ -41,9 +42,13 @@ public class LooperActivity extends Activity {
         blah2 = true;
     }
 
-    public void toMenu(View v) {
+    public void toMenu_OnClick(View v) {
         Intent i = new Intent(getApplicationContext(), MainMenu.class);
         startActivity(i);
+    }
+
+    public void save_OnClick(View v) {
+
     }
 
     public void record_OnClick(View v) throws IOException {
