@@ -22,10 +22,7 @@ import com.facebook.login.widget.LoginButton;
 
 public class MainMenu extends Activity {
 
-    private LoginButton loginButton;
-    private CallbackManager callbackManager;
     private AccessTokenTracker accessTokenTracker;
-    private AccessToken accessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,22 +31,20 @@ public class MainMenu extends Activity {
 
         FacebookSdk.sdkInitialize(getApplicationContext());
 
-        callbackManager = CallbackManager.Factory.create();
-
         accessTokenTracker = new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(
                     AccessToken oldAccessToken,
                     AccessToken currentAccessToken) {
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                i.putExtra("EXIT", true);
                 startActivity(i);
+
+                //TODO this is not erasing backstack, why?
+                finish();
             }
         };
-        // If the access token is available already assign it.
-        accessToken = AccessToken.getCurrentAccessToken();
-
-
-
 
     }
 
@@ -79,7 +74,7 @@ public class MainMenu extends Activity {
     }
 
     @Override
-    public void onDestroy() {
+    protected void onDestroy() {
         super.onDestroy();
         accessTokenTracker.stopTracking();
     }

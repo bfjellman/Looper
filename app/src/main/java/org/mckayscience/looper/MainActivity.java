@@ -1,8 +1,10 @@
 package org.mckayscience.looper;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 
+import android.content.SharedPreferences;
 import android.media.tv.TvInputService;
 import android.os.Bundle;
 
@@ -30,6 +32,7 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
@@ -62,6 +65,15 @@ public class MainActivity extends Activity {
                 + "\n" +
                 "Auth Token: " +
                 loginResult.getAccessToken().getToken());
+
+                SharedPreferences sharedPreferences = getSharedPreferences(
+                                getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+                sharedPreferences
+                        .edit()
+                        .putString("CurrentUser", loginResult.getAccessToken().getUserId())
+                        .putString("UserToken", loginResult.getAccessToken().getToken())
+                        .commit();
+
                 Intent i;
                 i = new Intent(getApplicationContext(), MainMenu.class);
 

@@ -2,13 +2,10 @@ package org.mckayscience.looper;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Environment;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,8 +20,8 @@ public class LooperActivity extends Activity {
     private MediaPlayer mediaPlayer;
     private MediaRecorder recorder;
     private String OUTPUT_FILE;
-    private boolean blah;
-    private boolean blah2;
+    private boolean recordBool;
+    private boolean playBool;
     private Button recordBtn;
     private Button playBtn;
 
@@ -38,8 +35,17 @@ public class LooperActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_looper);
         OUTPUT_FILE = Environment.getExternalStorageDirectory()+"/audiorecorder.3gpp"; //Setting directory string
-        blah = true;
-        blah2 = true;
+        recordBool = true;
+        playBool = true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        File file = new File(OUTPUT_FILE);
+        file.delete();
+
     }
 
     public void toMenu_OnClick(View v) {
@@ -54,33 +60,38 @@ public class LooperActivity extends Activity {
     public void record_OnClick(View v) throws IOException {
         recordBtn = (Button) findViewById(R.id.record_Btn_ID);
 
-        if(blah) {
+        if(recordBool) {
             startRecording();
             Toast.makeText(this, "recording", Toast.LENGTH_SHORT).show();
             recordBtn.setText("Stop");
 
         }
-        if(!blah){
+        if(!recordBool){
             stopRecording();
             Toast.makeText(this, "stopping", Toast.LENGTH_SHORT).show();
             recordBtn.setText("Record");
 
         }
-        blah = !blah;
+        recordBool = !recordBool;
     }
 
     public void play_OnClick(View v) throws IOException {
         playBtn = (Button) findViewById(R.id.play_Btn_ID);
 
-        if(blah2) {
+        File outFile = new File(OUTPUT_FILE);
+        if(!outFile.exists()) {
+            return;
+        }
+
+        if(playBool) {
             playRecording();
             playBtn.setText("Stop");
         }
-        if(!blah2){
+        if(!playBool){
             stopPlayback();
             playBtn.setText("Play");
         }
-        blah2 = !blah2;
+        playBool = !playBool;
     }
 
 
@@ -162,4 +173,5 @@ public class LooperActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

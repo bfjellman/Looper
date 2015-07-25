@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Menu"
+        android:text="@string/main_menu_title"
         android:id="@+id/textView_menu"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
@@ -19,7 +19,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create Song"
+        android:text="@string/main_menu_create"
         android:id="@+id/createSong_Btn_ID"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -29,7 +29,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Load Song"
+        android:text="@string/main_menu_load"
         android:id="@+id/load_Btn_ID"
         android:layout_below="@+id/createSong_Btn_ID"
         android:layout_centerHorizontal="true"
@@ -39,7 +39,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Share Song"
+        android:text="@string/main_menu_share"
         android:id="@+id/share_Song_Btn_ID"
         android:layout_below="@+id/load_Btn_ID"
         android:layout_centerHorizontal="true"
