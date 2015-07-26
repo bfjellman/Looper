@@ -54,6 +54,8 @@ public class MainMenu extends Activity {
     }
 
     public void loadSong_onClick(View v) {
+        Intent i = new Intent(getApplicationContext(), LoadActivity.class);
+        startActivity(i);
 
     }
 

@@ -24,4 +24,5 @@
     <string name="title_activity_song_name">SongName</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_load">LoadActivity</string>
 </resources>

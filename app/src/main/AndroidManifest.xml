@@ -41,6 +41,10 @@
             android:name=".SongName"
             android:label="@string/title_activity_song_name" >
         </activity>
+        <activity
+            android:name=".LoadActivity"
+            android:label="@string/title_activity_load" >
+        </activity>
     </application>
 
 </manifest>
