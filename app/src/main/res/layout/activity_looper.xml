@@ -6,6 +6,12 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.iinspirestudios.looperapp2.LooperActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Song Name"
+        android:id="@+id/looper_song"/>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,6 +30,13 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:onClick="play_OnClick"/>
+
+    <TextView
+        android:id="@+id/test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/play_Btn_ID"
+        />
 
     <Button
         android:layout_width="wrap_content"

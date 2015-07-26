@@ -37,6 +37,10 @@
             android:name=".LooperActivity"
             android:label="@string/title_activity_looper" >
         </activity>
+        <activity
+            android:name=".SongName"
+            android:label="@string/title_activity_song_name" >
+        </activity>
     </application>
 
 </manifest>

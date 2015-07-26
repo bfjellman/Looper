@@ -1,19 +1,32 @@
 package org.mckayscience.looper;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.facebook.AccessToken;
+
+import org.mckayscience.looper.data.UserSongsDb;
+import org.mckayscience.looper.model.UserInfo;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 
 public class LooperActivity extends Activity {
@@ -24,6 +37,8 @@ public class LooperActivity extends Activity {
     private boolean playBool;
     private Button recordBtn;
     private Button playBtn;
+    private TextView songName;
+    private int currentTrack;
 
     //http://developer.android.com/reference/android/media/MediaPlayer.html
     //http://developer.android.com/reference/android/media/MediaRecorder.html
@@ -34,9 +49,24 @@ public class LooperActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_looper);
-        OUTPUT_FILE = Environment.getExternalStorageDirectory()+"/audiorecorder.3gpp"; //Setting directory string
+
+        //Grab TextView for song name
+        songName = (TextView)findViewById(R.id.looper_song);
+
+        //Get the song name from shared preferences
+        SharedPreferences sharedPreferences = getSharedPreferences(
+                getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+
+        songName.setText(sharedPreferences.getString("currentSong", null));
+
+        currentTrack = 0;
+        OUTPUT_FILE = setOutputFile(Integer.toString(currentTrack));
         recordBool = true;
         playBool = true;
+    }
+
+    private String setOutputFile(String track) {
+        return Environment.getExternalStorageDirectory()+ "/" + songName.getText().toString() + track + ".3gpp";
     }
 
     @Override
@@ -54,6 +84,20 @@ public class LooperActivity extends Activity {
     }
 
     public void save_OnClick(View v) {
+
+        TextView test = (TextView)findViewById(R.id.test);
+
+        UserSongsDb userDB = new UserSongsDb(getApplicationContext());
+        userDB.insertUser(songName.getText().toString(), OUTPUT_FILE, "", "", "", "");
+
+        List<UserInfo> mList = userDB.selectUsers();
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < mList.size(); i++) {
+            sb.append(mList.get(i));
+            sb.append("\n");
+        }
+        test.setText(sb.toString());
+        userDB.closeDB();
 
     }
 
@@ -84,12 +128,12 @@ public class LooperActivity extends Activity {
         }
 
         if(playBool) {
-            playRecording();
             playBtn.setText("Stop");
+            playRecording();
         }
         if(!playBool){
-            stopPlayback();
             playBtn.setText("Play");
+            stopPlayback();
         }
         playBool = !playBool;
     }
@@ -126,6 +170,7 @@ public class LooperActivity extends Activity {
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setDataSource(OUTPUT_FILE);
         mediaPlayer.prepare(); //Prepares the recorder to begin capturing and encoding data. Must always prepare before starting, bleh
+        mediaPlayer.setLooping(true);
         mediaPlayer.start();
 
         System.out.println("Finished Play Recording Method");

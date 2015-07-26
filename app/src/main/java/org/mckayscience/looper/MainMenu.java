@@ -49,7 +49,7 @@ public class MainMenu extends Activity {
     }
 
     public void createSong_onClick(View v) {
-        Intent i = new Intent(getApplicationContext(), LooperActivity.class);
+        Intent i = new Intent(getApplicationContext(), SongName.class);
         startActivity(i);
     }
 

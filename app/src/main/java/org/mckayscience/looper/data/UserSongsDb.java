@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.facebook.AccessToken;
+
 import org.mckayscience.looper.model.UserInfo;
 
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ public class UserSongsDb {
 
     public static final int DB_VERSION = 1;
     public static final String DB_NAME = "UserSongs.db";
-    public static final String USER_TABLE = "User";
+    public static final String USER_TABLE = "User" + AccessToken.getCurrentAccessToken().getUserId();
 
     private UserSongsDBHelper mUserSongsDBHelper;
     private SQLiteDatabase mSQLiteDatabase;
@@ -29,21 +31,24 @@ public class UserSongsDb {
         mSQLiteDatabase = mUserSongsDBHelper.getWritableDatabase();
     }
 
-    public boolean insertUser(String email, String pwd) {
+    public boolean insertUser(String song, String track0, String track1,
+                              String track2, String track3, String track4) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put("email", email);
-        contentValues.put("pwd", pwd);
+        contentValues.put("song", song);
+        contentValues.put("track0", track0);
+        contentValues.put("track1", track1);
+        contentValues.put("track2", track2);
+        contentValues.put("track3", track3);
+        contentValues.put("track4", track4);
 
-        long rowId = mSQLiteDatabase.insert("User", null, contentValues);
+        long rowId = mSQLiteDatabase.replace(USER_TABLE, null, contentValues);
         return rowId != -1;
     }
 
     public List<UserInfo> selectUsers() {
         // Define a projection that specifies which columns from the database
 // you will actually use after this query.
-        String[] columns = {
-                "email", "pwd"
-        };
+        String[] columns = {"song", "track0", "track1","track2","track3","track4"};
 
 
         Cursor c = mSQLiteDatabase.query(
@@ -58,9 +63,13 @@ public class UserSongsDb {
         c.moveToFirst();
         List<UserInfo> list = new ArrayList<UserInfo>();
         for (int i=0; i<c.getCount(); i++) {
-            String email = c.getString(0);
-            String pwd = c.getString(1);
-            UserInfo userInfo = new UserInfo(email, pwd);
+            String song = c.getString(0);
+            String track0 = c.getString(1);
+            String track1 = c.getString(2);
+            String track2 = c.getString(3);
+            String track3 = c.getString(4);
+            String track4 = c.getString(5);
+            UserInfo userInfo = new UserInfo(song, track0, track1, track2, track3, track4);
             list.add(userInfo);
             c.moveToNext();
         }
@@ -68,8 +77,8 @@ public class UserSongsDb {
         return list;
     }
 
-    public void deleteUserByEmail(String email) {
-        mSQLiteDatabase.delete("User", "email=?", new String[]{email});
+    public void deleteSong(String song) {
+        mSQLiteDatabase.delete(USER_TABLE, "song=?", new String[]{song});
     }
 
     public void closeDB() {
@@ -80,11 +89,19 @@ public class UserSongsDb {
 
     class UserSongsDBHelper extends SQLiteOpenHelper {
 
-        private static final String CREATE_USER_SQL =
-                "CREATE TABLE IF NOT EXISTS User (email TEXT PRIMARY KEY, pwd TEXT)";
+        private final String CREATE_USER_SQL =
+                "CREATE TABLE IF NOT EXISTS " + USER_TABLE + " (" +
+                        "song TEXT " +
+                        "PRIMARY KEY, " +
+                        "track0 TEXT, " +
+                        "track1 TEXT, " +
+                        "track2 TEXT, " +
+                        "track3 TEXT, " +
+                        "track4 TEXT, " +
+                        "dest TEXT)";
 
-        private static final String DROP_USER_SQL =
-                "DROP TABLE IF EXISTS User";
+        private final String DROP_USER_SQL =
+                "DROP TABLE IF EXISTS " + USER_TABLE;
 
         public UserSongsDBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
             super(context, name, factory, version);

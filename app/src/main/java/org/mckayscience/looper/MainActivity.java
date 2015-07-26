@@ -72,7 +72,7 @@ public class MainActivity extends Activity {
                         .edit()
                         .putString("CurrentUser", loginResult.getAccessToken().getUserId())
                         .putString("UserToken", loginResult.getAccessToken().getToken())
-                        .commit();
+                        .apply();
 
                 Intent i;
                 i = new Intent(getApplicationContext(), MainMenu.class);

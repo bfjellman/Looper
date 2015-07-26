@@ -12,6 +12,16 @@
     <string name="main_menu_load">Load Song</string>
     <string name="main_menu_share">Share Song</string>
 
+    <string name="song_name_text">Please enter a name for the song.</string>
+    <string name="song_name_edit">Song Name</string>
+    <string name="song_name_okbtn">Create</string>
+    <string name="song_name_cancelbtn">Cancel</string>
+
+
+
 
     <string name="title_activity_looper">LooperActivity</string>
+    <string name="title_activity_song_name">SongName</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>
