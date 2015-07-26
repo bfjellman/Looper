@@ -3,6 +3,7 @@ package org.mckayscience.looper;
 import android.app.Activity;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.mckayscience.looper.data.UserSongsDb;
@@ -32,22 +35,35 @@ public class LoadActivity extends Activity {
 
         UserSongsDb userDB = new UserSongsDb(getApplicationContext());
         List<UserInfo> list =  userDB.selectUsers();
+        if(list.size() != 0) {
 
-        ArrayAdapter<UserInfo> adapter = new ArrayAdapter<>(getApplicationContext(),
-                android.R.layout.simple_list_item_1
-                , android.R.id.text1, list);
+            ArrayAdapter<UserInfo> adapter = new ArrayAdapter<UserInfo>(getApplicationContext(),
+                    R.layout.darker_text, list);
+
+            userInfo.setAdapter(adapter);
+
+            userInfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Toast.makeText(getApplicationContext(), "Yay this works", Toast.LENGTH_LONG).show();
+
+                }
+            });
+
+        } else {
+            TextView noFile = (TextView)findViewById(R.id.load_no_songs);
+            noFile.setText("No files found.");
+            Button back = (Button)findViewById(R.id.load_back_button);
+            back.setText("BACK");
+            back.setVisibility(View.VISIBLE);
+        }
 
 
-        userInfo.setAdapter(adapter);
 
-        userInfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getApplicationContext(), "Yay this works", Toast.LENGTH_LONG).show();
+    }
 
-            }
-        });
-
+    public void goBack(View v) {
+        this.finish();
     }
 
 
