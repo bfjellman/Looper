@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import android.content.SharedPreferences;
-import android.media.tv.TvInputService;
 import android.os.Bundle;
 
 import android.view.Menu;
@@ -19,6 +18,9 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+
+import com.parse.*;
+
 
 
 public class MainActivity extends Activity {
@@ -34,6 +36,16 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        //Enable parse cloud webservice
+        Parse.enableLocalDatastore(this);
+        Parse.initialize(this, "RS7Eb3jg4hzhw7VaSq3pHIxtSHpi8l1bVliTtfnA", "n6VvvsgD00yxKv9tg0W5wvKdLGB3FqMscMIJGsJz");
+
+        ParseObject testObject = new ParseObject("TestObject");
+        testObject.put("foo", "bar");
+        testObject.saveInBackground();
+
+
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
 

@@ -18,6 +18,8 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.io.FileInputStream;
+
 
 import com.facebook.AccessToken;
 
@@ -25,6 +27,7 @@ import org.mckayscience.looper.data.UserSongsDb;
 import org.mckayscience.looper.model.UserInfo;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -39,6 +42,7 @@ public class LooperActivity extends Activity {
     private Button playBtn;
     private TextView songName;
     private int currentTrack;
+
 
     //http://developer.android.com/reference/android/media/MediaPlayer.html
     //http://developer.android.com/reference/android/media/MediaRecorder.html
@@ -98,6 +102,12 @@ public class LooperActivity extends Activity {
         }
         test.setText(sb.toString());
         userDB.closeDB();
+
+
+        //Changes Track into BYTE[] Form.
+        File songTrack = new File(OUTPUT_FILE);
+
+
 
     }
 
