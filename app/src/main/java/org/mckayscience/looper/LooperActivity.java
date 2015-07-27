@@ -70,16 +70,25 @@ public class LooperActivity extends Activity {
     }
 
     private String setOutputFile(String track) {
-        return Environment.getExternalStorageDirectory()+ "/" + songName.getText().toString() + track + ".3gpp";
+
+        String userId = AccessToken.getCurrentAccessToken().getUserId();
+        //check if Android Looper directory exists, if not, create one
+        boolean isDir = (new File(Environment.getExternalStorageDirectory() + "/AndroidLooper")).exists();
+        if(!isDir) {
+            new File(Environment.getExternalStorageDirectory() + "/AndroidLooper").mkdir();
+        }
+        //check if userID directory exists, if not, create one
+        isDir = (new File(Environment.getExternalStorageDirectory() + "/AndroidLooper/" + userId)).exists();
+        if(!isDir) {
+            new File(Environment.getExternalStorageDirectory() + "/AndroidLooper/" + userId).mkdir();
+        }
+        //return path for new track
+        return Environment.getExternalStorageDirectory()+ "/AndroidLooper/" + userId + "/" + songName.getText().toString() + track + ".3gpp";
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        File file = new File(OUTPUT_FILE);
-        file.delete();
-
     }
 
     public void toMenu_OnClick(View v) {
