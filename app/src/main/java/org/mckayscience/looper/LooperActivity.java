@@ -22,6 +22,8 @@ import java.io.FileInputStream;
 
 
 import com.facebook.AccessToken;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
 
 import org.mckayscience.looper.data.UserSongsDb;
 import org.mckayscience.looper.model.UserInfo;
@@ -116,6 +118,23 @@ public class LooperActivity extends Activity {
         //Changes Track into BYTE[] Form.
         File songTrack = new File(OUTPUT_FILE);
 
+        byte[] bFile = new byte[(int) songTrack.length()];
+        FileInputStream fileInputStream = null;
+
+        try {
+            //convert file into array of bytes
+            fileInputStream = new FileInputStream(songTrack);
+            fileInputStream.read(bFile);
+            fileInputStream.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        ParseFile file = new ParseFile("song1.3gpp", bFile);
+        file.saveInBackground();
+        ParseObject jobApplication = new ParseObject("JobApplication");
+        jobApplication.put("applicantName", "Joe Smith");
+        jobApplication.put("applicantResumeFile", file);
+        jobApplication.saveInBackground();
 
 
     }
