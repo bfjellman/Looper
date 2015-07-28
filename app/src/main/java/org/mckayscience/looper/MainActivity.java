@@ -38,10 +38,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         //Enable parse cloud webservice
-       Parse.enableLocalDatastore(this);
-      Parse.initialize(this, "RS7Eb3jg4hzhw7VaSq3pHIxtSHpi8l1bVliTtfnA", "n6VvvsgD00yxKv9tg0W5wvKdLGB3FqMscMIJGsJz");
 
-
+        SharedPreferences sharedPreferences = getSharedPreferences(
+                getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
 
 
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -53,7 +52,6 @@ public class MainActivity extends Activity {
         accessToken = AccessToken.getCurrentAccessToken();
         if(accessToken != null) {
             Intent i = new Intent(getApplicationContext(), MainMenu.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
             finish();
         }

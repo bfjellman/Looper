@@ -2,6 +2,7 @@ package org.mckayscience.looper;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
@@ -56,14 +57,15 @@ public class LoadActivity extends Activity {
             Button back = (Button)findViewById(R.id.load_back_button);
             back.setText("BACK");
             back.setVisibility(View.VISIBLE);
+
         }
-
-
 
     }
 
-    public void goBack(View v) {
-        this.finish();
+    public void backToMenu(View v) {
+
+       this.finish();
+
     }
 
 

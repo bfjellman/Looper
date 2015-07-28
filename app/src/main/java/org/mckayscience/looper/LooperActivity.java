@@ -44,6 +44,7 @@ public class LooperActivity extends Activity {
     private Button playBtn;
     private TextView songName;
     private int currentTrack;
+    private String mSong;
 
 
     //http://developer.android.com/reference/android/media/MediaPlayer.html
@@ -64,6 +65,7 @@ public class LooperActivity extends Activity {
                 getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
 
         songName.setText(sharedPreferences.getString("currentSong", null));
+        mSong = sharedPreferences.getString("currentSong", null);
 
         currentTrack = 0;
         OUTPUT_FILE = setOutputFile(Integer.toString(currentTrack));
@@ -74,7 +76,7 @@ public class LooperActivity extends Activity {
     private String setOutputFile(String track) {
 
         String userId = AccessToken.getCurrentAccessToken().getUserId();
-        //check if Android Looper directory exists, if not, create one
+        //check if Android org.mckayscience.looper.Looper directory exists, if not, create one
         boolean isDir = (new File(Environment.getExternalStorageDirectory() + "/AndroidLooper")).exists();
         if(!isDir) {
             new File(Environment.getExternalStorageDirectory() + "/AndroidLooper").mkdir();
@@ -129,10 +131,10 @@ public class LooperActivity extends Activity {
         }catch(Exception e){
             e.printStackTrace();
         }
-        ParseFile file = new ParseFile("song1.3gpp", bFile);
+        ParseFile file = new ParseFile(mSong + currentTrack + ".3gpp", bFile);
         file.saveInBackground();
         ParseObject jobApplication = new ParseObject("JobApplication");
-        jobApplication.put("applicantName", "Joe Smith");
+        jobApplication.put("applicantName", AccessToken.getCurrentAccessToken().getUserId());
         jobApplication.put("applicantResumeFile", file);
         jobApplication.saveInBackground();
 
