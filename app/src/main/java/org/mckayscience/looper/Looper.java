@@ -4,7 +4,8 @@ import android.app.Application;
 import com.parse.Parse;
 
 /**
- * Created by B on 7/28/2015.
+ * This class allows the initialization of the Parse cloud service before activites begin so that
+ * any return to the login activity will not crash the service.
  */
 public class Looper extends Application {
 

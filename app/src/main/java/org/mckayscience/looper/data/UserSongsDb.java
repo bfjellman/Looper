@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by B on 7/25/2015.
+ * Creates and manages the SQLite database that holds users and their songs
  */
 public class UserSongsDb {
 
@@ -30,15 +30,18 @@ public class UserSongsDb {
         mSQLiteDatabase = mUserSongsDBHelper.getWritableDatabase();
     }
 
-    private static String getUser() {
-
-        if(AccessToken.getCurrentAccessToken() == null) {
-            return "UserGuest";
-        }
-
-        return "User" + AccessToken.getCurrentAccessToken().getUserId();
-    }
-
+    /**
+     * Inserts a new song into the database.
+     *
+     * @param userID The user for the song.
+     * @param song The song name.
+     * @param track0 Destination for track.
+     * @param track1 Destination for track.
+     * @param track2 Destination for track.
+     * @param track3 Destination for track.
+     * @param track4 Destination for track.
+     * @return Returns a boolean value if it worked or not.
+     */
     public boolean insertSong(String userID, String song, String track0, String track1,
                               String track2, String track3, String track4) {
         ContentValues contentValues = new ContentValues();
@@ -54,13 +57,18 @@ public class UserSongsDb {
         return rowId != -1;
     }
 
+    /**
+     * Selects a user to populate a list of database entries to return.
+     *
+     * @param user The user to return the list of entries from.
+     * @return A list of UserInfo objects that contain the information from the database.
+     */
     public List<UserInfo> selectUsers(String user) {
         // Define a projection that specifies which columns from the database
-// you will actually use after this query.
+        // you will actually use after this query.
         String[] columns = {"userID", "song", "track0", "track1","track2","track3","track4"};
+        //The argument to query
         String[] args = {user};
-
-
 
         Cursor c = mSQLiteDatabase.query(
                 USER_TABLE,  // The table to query
@@ -89,15 +97,21 @@ public class UserSongsDb {
         return list;
     }
 
+    /**
+     * Delete a song from the database.
+     *
+     * @param song The song to be deleted.
+     */
     public void deleteSong(String song) {
         mSQLiteDatabase.delete(USER_TABLE, "song=?", new String[]{song});
     }
 
+    /**
+     * Close the database.
+     */
     public void closeDB() {
         mSQLiteDatabase.close();
     }
-
-
 
     class UserSongsDBHelper extends SQLiteOpenHelper {
 

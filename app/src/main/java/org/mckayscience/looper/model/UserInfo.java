@@ -1,7 +1,7 @@
 package org.mckayscience.looper.model;
 
 /**
- * Created by B on 7/25/2015.
+ * UserInfo class for storing all database information in a single object.
  */
 public class UserInfo {
 

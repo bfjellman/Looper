@@ -11,9 +11,12 @@ import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.FacebookSdk;
 
-
+/**
+ * This activity acts as the main menu for the application allowing the user to create a song,
+ * load a song, share a song, or logout.
+ */
 public class MainMenu extends Activity {
-
+    /** Track the token for logout */
     private AccessTokenTracker accessTokenTracker;
 
     @Override
@@ -23,6 +26,7 @@ public class MainMenu extends Activity {
 
         FacebookSdk.sdkInitialize(getApplicationContext());
 
+        //Track the token so the Activity knows when a user has logged out of Facebook
         accessTokenTracker = new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(
@@ -40,17 +44,30 @@ public class MainMenu extends Activity {
 
     }
 
+    /**
+     * OnClick method for the create song button.
+     * @param v View for the button.
+     */
     public void createSong_onClick(View v) {
         Intent i = new Intent(getApplicationContext(), SongName.class);
         startActivity(i);
     }
 
+    /**
+     * Onclick method for the load song button.
+     * @param v View for the button.
+     */
     public void loadSong_onClick(View v) {
         Intent i = new Intent(getApplicationContext(), LoadActivity.class);
         startActivity(i);
 
     }
 
+    /**
+     * Onclick method for the share song button.
+     *
+     * @param v View for the button.
+     */
     public void shareSong_onClick(View v) {
 
     }
@@ -58,18 +75,21 @@ public class MainMenu extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
+        //stop tracking when activity is paused.
         accessTokenTracker.stopTracking();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
+        //resume tracking the token
         accessTokenTracker.startTracking();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        //stop the tracker when activity is destroyed
         accessTokenTracker.stopTracking();
     }
 

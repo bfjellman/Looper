@@ -12,7 +12,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
+/**
+ * Activity for handling the creation of the song name.
+ */
 public class SongName extends Activity {
 
     @Override
@@ -21,9 +23,14 @@ public class SongName extends Activity {
         setContentView(R.layout.activity_song_name);
     }
 
+    /**
+     * OnClick method for the create button.
+     * @param v View for the button.
+     */
     public void newSong(View v) {
 
         EditText edit = (EditText)findViewById(R.id.song_name_edit);
+        //check if the user entered anything
         if(edit.getText().toString().equals("")) {
             Toast.makeText(this, "Please enter a song name.", Toast.LENGTH_LONG).show();
             return;
@@ -42,8 +49,13 @@ public class SongName extends Activity {
         startActivity(i);
     }
 
+    /**
+     * OnClick method for the cancel button
+     *
+     * @param v View for the button.
+     */
     public void cancelNew(View v) {
-
+        //finishes this activity (goes back to last activity on stack)
         this.finish();
 
     }

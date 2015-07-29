@@ -25,7 +25,10 @@ import org.mckayscience.looper.model.UserInfo;
 
 import java.util.List;
 
-
+/**
+ * LoadActivity is created from the Main Menu and is responsible for populating the ListView
+ * with songs from the database on a per user basis.
+ */
 public class LoadActivity extends Activity {
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +37,16 @@ public class LoadActivity extends Activity {
         setContentView(R.layout.activity_load);
 
         ListView userInfo = (ListView) findViewById(R.id.user_info);
-
+        //Create a database object
         UserSongsDb userDB = new UserSongsDb(getApplicationContext());
 
         SharedPreferences sharedPreferences = getSharedPreferences(
                 getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+        //Get a list of songs from the current user.
         List<UserInfo> list =  userDB.selectUsers(sharedPreferences.getString("CurrentUser", null));
+        //close DB
+        userDB.closeDB();
+        //If there are songs to display
         if(list.size() != 0) {
 
             ArrayAdapter<UserInfo> adapter = new ArrayAdapter<UserInfo>(getApplicationContext(),
@@ -54,11 +61,10 @@ public class LoadActivity extends Activity {
 
                 }
             });
-
+        //If there are no songs to display
         } else {
             TextView noFile = (TextView)findViewById(R.id.load_no_songs);
             noFile.setText("No files found.");
-
         }
 
     }
