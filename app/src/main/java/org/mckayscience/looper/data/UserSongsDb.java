@@ -20,8 +20,7 @@ public class UserSongsDb {
 
     public static final int DB_VERSION = 1;
     public static final String DB_NAME = "UserSongs.db";
-    public static final String USER_TABLE = "User" + AccessToken.getCurrentAccessToken().getUserId();
-
+    public static final String USER_TABLE = getUser();
     private UserSongsDBHelper mUserSongsDBHelper;
     private SQLiteDatabase mSQLiteDatabase;
 
@@ -29,6 +28,15 @@ public class UserSongsDb {
         mUserSongsDBHelper = new UserSongsDBHelper(
                 context, DB_NAME, null, DB_VERSION);
         mSQLiteDatabase = mUserSongsDBHelper.getWritableDatabase();
+    }
+
+    private static String getUser() {
+
+        if(AccessToken.getCurrentAccessToken() == null) {
+            return "UserGuest";
+        }
+
+        return "User" + AccessToken.getCurrentAccessToken().getUserId();
     }
 
     public boolean insertUser(String song, String track0, String track1,
@@ -45,14 +53,14 @@ public class UserSongsDb {
         return rowId != -1;
     }
 
-    public List<UserInfo> selectUsers() {
+    public List<UserInfo> selectUsers(String user) {
         // Define a projection that specifies which columns from the database
 // you will actually use after this query.
         String[] columns = {"song", "track0", "track1","track2","track3","track4"};
 
 
         Cursor c = mSQLiteDatabase.query(
-                USER_TABLE,  // The table to query
+                user,  // The table to query
                 columns,                               // The columns to return
                 null,                                // The columns for the WHERE clause
                 null,                            // The values for the WHERE clause
@@ -97,8 +105,7 @@ public class UserSongsDb {
                         "track1 TEXT, " +
                         "track2 TEXT, " +
                         "track3 TEXT, " +
-                        "track4 TEXT, " +
-                        "dest TEXT)";
+                        "track4 TEXT)";
 
         private final String DROP_USER_SQL =
                 "DROP TABLE IF EXISTS " + USER_TABLE;

@@ -9,18 +9,17 @@ import android.os.Bundle;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-
-import com.parse.*;
-
 
 
 public class MainActivity extends Activity {
@@ -30,16 +29,16 @@ public class MainActivity extends Activity {
     private LoginButton loginButton;
 
     private CallbackManager callbackManager;
-    private AccessToken accessToken;
+    private AccessTokenTracker accessTokenTracker;
+
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
-        //Enable parse cloud webservice
-
-        SharedPreferences sharedPreferences = getSharedPreferences(
+        sharedPreferences = getSharedPreferences(
                 getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
 
 
@@ -49,13 +48,24 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         //check if user is already logged in
-        accessToken = AccessToken.getCurrentAccessToken();
-        if(accessToken != null) {
-            Intent i = new Intent(getApplicationContext(), MainMenu.class);
-            startActivity(i);
-            finish();
-        }
+        accessTokenTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(
+                    AccessToken oldAccessToken,
+                    AccessToken currentAccessToken) {
 
+                sharedPreferences
+                        .edit()
+                        .putString("CurrentUser", currentAccessToken.getUserId())
+                        .apply();
+                Intent i = new Intent(getApplicationContext(), MainMenu.class);
+
+                startActivity(i);
+                accessTokenTracker.stopTracking();
+
+
+            }
+        };
         info = (TextView)findViewById(R.id.info);
 
         loggedIn = (TextView)findViewById(R.id.login_value);
@@ -64,29 +74,22 @@ public class MainActivity extends Activity {
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
 
-
-
             @Override
             public void onSuccess(LoginResult loginResult) {
 
-                info.setText("User ID: " + loginResult.getAccessToken().getUserId()
-                + "\n" +
-                "Auth Token: " +
-                loginResult.getAccessToken().getToken());
 
-                SharedPreferences sharedPreferences = getSharedPreferences(
-                                getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
                 sharedPreferences
                         .edit()
                         .putString("CurrentUser", loginResult.getAccessToken().getUserId())
-                        .putString("UserToken", loginResult.getAccessToken().getToken())
                         .apply();
+
+                //UserSongsDb userDB = new UserSongsDb(getApplicationContext());
 
                 Intent i;
                 i = new Intent(getApplicationContext(), MainMenu.class);
 
-
                 startActivity(i);
+                accessTokenTracker.stopTracking();
                 finish();
 
             }
@@ -105,6 +108,20 @@ public class MainActivity extends Activity {
             }
 
         });
+    }
+
+    public void loginAsGuest(View v) {
+
+        accessTokenTracker.stopTracking();
+        sharedPreferences
+                .edit()
+                .putString("CurrentUser", "Guest")
+                .apply();
+
+        //UserSongsDb userDB = new UserSongsDb(this);
+
+        Intent i = new Intent(getApplicationContext(), MainMenu.class);
+        startActivity(i);
     }
 
     @Override
@@ -132,9 +149,5 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public CallbackManager getCallbackManager() {
-        return callbackManager;
     }
 }

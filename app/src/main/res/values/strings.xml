@@ -3,15 +3,17 @@
     <string name="facebook_app_id">461895427316604</string>
     <string name="SHARED_PREFS">org.mckayscience.looper.PREFS</string>
 
+    //main activity
+    <string name="guest_button">Guest</string>
 
     <string name="action_settings">Settings</string>
-
+    //main menu
     <string name="title_activity_main_menu">MainMenu</string>
     <string name="main_menu_title">Menu</string>
     <string name="main_menu_create">Create Song</string>
     <string name="main_menu_load">Load Song</string>
     <string name="main_menu_share">Share Song</string>
-
+    //create song
     <string name="song_name_text">Please enter a name for the song.</string>
     <string name="song_name_edit">Song Name</string>
     <string name="song_name_okbtn">Create</string>
@@ -19,7 +21,7 @@
 
 
 
-
+    //Looper activity
     <string name="title_activity_looper">LooperActivity</string>
     <string name="title_activity_song_name">SongName</string>
 

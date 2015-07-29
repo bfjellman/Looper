@@ -3,6 +3,7 @@ package org.mckayscience.looper;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
@@ -35,7 +36,10 @@ public class LoadActivity extends Activity {
         ListView userInfo = (ListView) findViewById(R.id.user_info);
 
         UserSongsDb userDB = new UserSongsDb(getApplicationContext());
-        List<UserInfo> list =  userDB.selectUsers();
+
+        SharedPreferences sharedPreferences = getSharedPreferences(
+                getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+        List<UserInfo> list =  userDB.selectUsers("User" + sharedPreferences.getString("CurrentUser", null));
         if(list.size() != 0) {
 
             ArrayAdapter<UserInfo> adapter = new ArrayAdapter<UserInfo>(getApplicationContext(),
@@ -54,23 +58,10 @@ public class LoadActivity extends Activity {
         } else {
             TextView noFile = (TextView)findViewById(R.id.load_no_songs);
             noFile.setText("No files found.");
-            Button back = (Button)findViewById(R.id.load_back_button);
-            back.setText("BACK");
-            back.setVisibility(View.VISIBLE);
 
         }
 
     }
-
-    public void backToMenu(View v) {
-
-       this.finish();
-
-    }
-
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

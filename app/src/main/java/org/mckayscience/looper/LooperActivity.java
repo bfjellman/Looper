@@ -45,12 +45,7 @@ public class LooperActivity extends Activity {
     private TextView songName;
     private int currentTrack;
     private String mSong;
-
-
-    //http://developer.android.com/reference/android/media/MediaPlayer.html
-    //http://developer.android.com/reference/android/media/MediaRecorder.html
-
-
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +56,7 @@ public class LooperActivity extends Activity {
         songName = (TextView)findViewById(R.id.looper_song);
 
         //Get the song name from shared preferences
-        SharedPreferences sharedPreferences = getSharedPreferences(
+        sharedPreferences = getSharedPreferences(
                 getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
 
         songName.setText(sharedPreferences.getString("currentSong", null));
@@ -107,7 +102,7 @@ public class LooperActivity extends Activity {
         UserSongsDb userDB = new UserSongsDb(getApplicationContext());
         userDB.insertUser(songName.getText().toString(), OUTPUT_FILE, "", "", "", "");
 
-        List<UserInfo> mList = userDB.selectUsers();
+        List<UserInfo> mList = userDB.selectUsers("User" + sharedPreferences.getString("CurrentUser", null));
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < mList.size(); i++) {
             sb.append(mList.get(i));
