@@ -8,14 +8,10 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.io.FileInputStream;
@@ -29,7 +25,6 @@ import org.mckayscience.looper.data.UserSongsDb;
 import org.mckayscience.looper.model.UserInfo;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -99,10 +94,11 @@ public class LooperActivity extends Activity {
 
         TextView test = (TextView)findViewById(R.id.test);
 
-        UserSongsDb userDB = new UserSongsDb(getApplicationContext());
-        userDB.insertUser(songName.getText().toString(), OUTPUT_FILE, "", "", "", "");
 
-        List<UserInfo> mList = userDB.selectUsers("User" + sharedPreferences.getString("CurrentUser", null));
+        UserSongsDb userDB = new UserSongsDb(getApplicationContext());
+        userDB.insertSong(sharedPreferences.getString("CurrentUser", null), songName.getText().toString(), OUTPUT_FILE, "", "", "", "");
+
+        List<UserInfo> mList = userDB.selectUsers(sharedPreferences.getString("CurrentUser", null));
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < mList.size(); i++) {
             sb.append(mList.get(i));

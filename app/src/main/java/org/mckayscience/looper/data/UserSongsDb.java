@@ -20,7 +20,7 @@ public class UserSongsDb {
 
     public static final int DB_VERSION = 1;
     public static final String DB_NAME = "UserSongs.db";
-    public static final String USER_TABLE = getUser();
+    public static final String USER_TABLE = "User";
     private UserSongsDBHelper mUserSongsDBHelper;
     private SQLiteDatabase mSQLiteDatabase;
 
@@ -39,9 +39,10 @@ public class UserSongsDb {
         return "User" + AccessToken.getCurrentAccessToken().getUserId();
     }
 
-    public boolean insertUser(String song, String track0, String track1,
+    public boolean insertSong(String userID, String song, String track0, String track1,
                               String track2, String track3, String track4) {
         ContentValues contentValues = new ContentValues();
+        contentValues.put("userID", userID);
         contentValues.put("song", song);
         contentValues.put("track0", track0);
         contentValues.put("track1", track1);
@@ -56,14 +57,16 @@ public class UserSongsDb {
     public List<UserInfo> selectUsers(String user) {
         // Define a projection that specifies which columns from the database
 // you will actually use after this query.
-        String[] columns = {"song", "track0", "track1","track2","track3","track4"};
+        String[] columns = {"userID", "song", "track0", "track1","track2","track3","track4"};
+        String[] args = {user};
+
 
 
         Cursor c = mSQLiteDatabase.query(
-                user,  // The table to query
+                USER_TABLE,  // The table to query
                 columns,                               // The columns to return
-                null,                                // The columns for the WHERE clause
-                null,                            // The values for the WHERE clause
+                "userID = ?",                                // The columns for the WHERE clause
+                args,                            // The values for the WHERE clause
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
                 null                                 // The sort order
@@ -71,13 +74,14 @@ public class UserSongsDb {
         c.moveToFirst();
         List<UserInfo> list = new ArrayList<UserInfo>();
         for (int i=0; i<c.getCount(); i++) {
-            String song = c.getString(0);
-            String track0 = c.getString(1);
-            String track1 = c.getString(2);
-            String track2 = c.getString(3);
-            String track3 = c.getString(4);
-            String track4 = c.getString(5);
-            UserInfo userInfo = new UserInfo(song, track0, track1, track2, track3, track4);
+            String userID = c.getString(0);
+            String song = c.getString(1);
+            String track0 = c.getString(2);
+            String track1 = c.getString(3);
+            String track2 = c.getString(4);
+            String track3 = c.getString(5);
+            String track4 = c.getString(6);
+            UserInfo userInfo = new UserInfo(userID, song, track0, track1, track2, track3, track4);
             list.add(userInfo);
             c.moveToNext();
         }
@@ -99,13 +103,14 @@ public class UserSongsDb {
 
         private final String CREATE_USER_SQL =
                 "CREATE TABLE IF NOT EXISTS " + USER_TABLE + " (" +
-                        "song TEXT " +
-                        "PRIMARY KEY, " +
+                        "userID TEXT, " +
+                        "song TEXT, " +
                         "track0 TEXT, " +
                         "track1 TEXT, " +
                         "track2 TEXT, " +
                         "track3 TEXT, " +
-                        "track4 TEXT)";
+                        "track4 TEXT, " +
+                        "PRIMARY KEY(userID, song))";
 
         private final String DROP_USER_SQL =
                 "DROP TABLE IF EXISTS " + USER_TABLE;

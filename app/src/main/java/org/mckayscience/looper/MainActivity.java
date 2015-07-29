@@ -25,12 +25,9 @@ import com.facebook.login.widget.LoginButton;
 public class MainActivity extends Activity {
 
     private TextView info;
-    private TextView loggedIn;
     private LoginButton loginButton;
-
     private CallbackManager callbackManager;
     private AccessTokenTracker accessTokenTracker;
-
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -62,16 +59,11 @@ public class MainActivity extends Activity {
 
                 startActivity(i);
                 accessTokenTracker.stopTracking();
-
-
             }
         };
         info = (TextView)findViewById(R.id.info);
 
-        loggedIn = (TextView)findViewById(R.id.login_value);
         loginButton = (LoginButton)findViewById(R.id.login_button);
-
-
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
 
             @Override

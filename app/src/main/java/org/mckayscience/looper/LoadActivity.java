@@ -39,7 +39,7 @@ public class LoadActivity extends Activity {
 
         SharedPreferences sharedPreferences = getSharedPreferences(
                 getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
-        List<UserInfo> list =  userDB.selectUsers("User" + sharedPreferences.getString("CurrentUser", null));
+        List<UserInfo> list =  userDB.selectUsers(sharedPreferences.getString("CurrentUser", null));
         if(list.size() != 0) {
 
             ArrayAdapter<UserInfo> adapter = new ArrayAdapter<UserInfo>(getApplicationContext(),

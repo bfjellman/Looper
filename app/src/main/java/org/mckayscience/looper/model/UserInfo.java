@@ -5,19 +5,18 @@ package org.mckayscience.looper.model;
  */
 public class UserInfo {
 
-
+    private String mUserID;
     private String mSong;
     private String mTrack0;
     private String mTrack1;
-
-
     private String mTrack2;
     private String mTrack3;
     private String mTrack4;
     private String mDest;
 
-    public UserInfo(String song, String track0, String track1, String track2,
+    public UserInfo(String userID, String song, String track0, String track1, String track2,
                     String track3, String track4) {
+        mUserID = userID;
         mSong = song;
         mTrack0 = track0;
         mTrack1 = track1;
@@ -26,6 +25,10 @@ public class UserInfo {
         mTrack4 = track4;
 
     }
+
+    public String getUserID() { return mUserID;}
+
+    public void setUserID(String userID) {mUserID = userID; }
 
     public String getSong() {
         return mSong;
@@ -80,6 +83,7 @@ public class UserInfo {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("UserInfo{");
+        sb.append("UserID: " + mUserID + " | ");
         sb.append("Song: " + mSong + " | ");
         sb.append("Track0: " + mTrack0 + " | ");
         sb.append("Track1: " + mTrack1 + " | ");
