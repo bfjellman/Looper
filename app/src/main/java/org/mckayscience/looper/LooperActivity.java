@@ -181,9 +181,9 @@ public class LooperActivity extends Activity {
         //create a parsefile to send to cloud server
         ParseFile file = new ParseFile(songString + currentTrack + ".3gpp", bFile);
         file.saveInBackground();
-        ParseObject jobApplication = new ParseObject("JobApplication");
-        jobApplication.put("applicantName", sharedPreferences.getString("CurrentUser", null));
-        jobApplication.put("applicantResumeFile", file);
+        ParseObject jobApplication = new ParseObject("SongTracks");
+        jobApplication.put("userName", sharedPreferences.getString("CurrentUser", null));
+        jobApplication.put("userSongTrack", file);
         jobApplication.saveInBackground();
 
     }
