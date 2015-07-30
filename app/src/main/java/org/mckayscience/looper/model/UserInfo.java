@@ -12,7 +12,6 @@ public class UserInfo {
     private String mTrack2;
     private String mTrack3;
     private String mTrack4;
-    private String mDest;
 
     public UserInfo(String userID, String song, String track0, String track1, String track2,
                     String track3, String track4) {
