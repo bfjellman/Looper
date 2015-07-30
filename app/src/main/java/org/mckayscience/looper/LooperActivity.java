@@ -50,6 +50,7 @@ public class LooperActivity extends Activity {
     private int currentTrack;
     /** Song name */
     private String mSong;
+    private String songString;
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -95,7 +96,7 @@ public class LooperActivity extends Activity {
         if(!isDir) {
             new File(Environment.getExternalStorageDirectory() + "/AndroidLooper/" + userId).mkdir();
         }
-        String songString = songName.getText().toString();
+        songString = songName.getText().toString();
         //remove all white space from song name and all letters lowercase
         songString = songString
                 .replaceAll("\\s+", "")
@@ -178,7 +179,7 @@ public class LooperActivity extends Activity {
             e.printStackTrace();
         }
         //create a parsefile to send to cloud server
-        ParseFile file = new ParseFile(mSong + currentTrack + ".3gpp", bFile);
+        ParseFile file = new ParseFile(songString + currentTrack + ".3gpp", bFile);
         file.saveInBackground();
         ParseObject jobApplication = new ParseObject("JobApplication");
         jobApplication.put("applicantName", sharedPreferences.getString("CurrentUser", null));
