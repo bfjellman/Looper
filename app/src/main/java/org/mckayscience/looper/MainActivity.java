@@ -44,11 +44,12 @@ public class MainActivity extends Activity {
 
         super.onCreate(savedInstanceState);
 
+        //initiate Facebook SDK
+        FacebookSdk.sdkInitialize(getApplicationContext());
+
         sharedPreferences = getSharedPreferences(
                 getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
 
-        //initiate Facebook SDK
-        FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
 
         setContentView(R.layout.activity_main);
