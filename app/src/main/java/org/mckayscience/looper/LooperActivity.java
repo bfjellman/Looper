@@ -43,6 +43,7 @@ public class LooperActivity extends Activity {
     private boolean playBool;
     private Button recordBtn;
     private Button playBtn;
+    private boolean hasRecording;
     /** TextView that holds the song name */
     private TextView songName;
     /** Track the current track number for adding new tracks */
@@ -71,6 +72,7 @@ public class LooperActivity extends Activity {
         OUTPUT_FILE = setOutputFile(Integer.toString(currentTrack));
         recordBool = true;
         playBool = true;
+        hasRecording = false;
     }
 
     /**
@@ -106,6 +108,26 @@ public class LooperActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        //stop recording and playing when destroyed
+        if(!recordBool) {
+            stopRecording();
+        }
+        if(!playBool){
+            stopPlayback();
+        }
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        //stop recording and playing when paused
+        if(!recordBool) {
+            stopRecording();
+        }
+        if(!playBool){
+            stopPlayback();
+        }
     }
 
     /**
@@ -182,6 +204,7 @@ public class LooperActivity extends Activity {
         }
         if(!recordBool){
             stopRecording();
+            hasRecording = true;
             Toast.makeText(this, "stopping", Toast.LENGTH_SHORT).show();
             recordBtn.setText("Record");
 
@@ -196,6 +219,9 @@ public class LooperActivity extends Activity {
      */
     public void play_OnClick(View v) throws IOException {
         playBtn = (Button) findViewById(R.id.play_Btn_ID);
+
+        if(!hasRecording)
+            return;
 
         File outFile = new File(OUTPUT_FILE);
         if(!outFile.exists()) {
