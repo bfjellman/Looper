@@ -32,7 +32,7 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name=".MainMenu"
+            android:name=".MainMenuActivity"
             android:label="@string/title_activity_main_menu" >
         </activity>
         <activity
@@ -40,7 +40,7 @@
             android:label="@string/title_activity_looper" >
         </activity>
         <activity
-            android:name=".SongName"
+            android:name=".CreateSongActivity"
             android:label="@string/title_activity_song_name" >
         </activity>
         <activity

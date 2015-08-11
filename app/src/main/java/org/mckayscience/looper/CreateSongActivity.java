@@ -15,7 +15,7 @@ import android.widget.Toast;
 /**
  * Activity for handling the creation of the song name.
  */
-public class SongName extends Activity {
+public class CreateSongActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -15,7 +15,7 @@ import com.facebook.FacebookSdk;
  * This activity acts as the main menu for the application allowing the user to create a song,
  * load a song, share a song, or logout.
  */
-public class MainMenu extends Activity {
+public class MainMenuActivity extends Activity {
     /** Track the token for logout */
     private AccessTokenTracker accessTokenTracker;
 
@@ -49,7 +49,7 @@ public class MainMenu extends Activity {
      * @param v View for the button.
      */
     public void createSong_onClick(View v) {
-        Intent i = new Intent(getApplicationContext(), SongName.class);
+        Intent i = new Intent(getApplicationContext(), CreateSongActivity.class);
         startActivity(i);
     }
 

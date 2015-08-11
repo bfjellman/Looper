@@ -12,37 +12,61 @@
         android:text="Song Name"
         android:id="@+id/looper_song"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:text="Record"
-        android:id="@+id/record_Btn_ID"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/looper_song"
-        android:onClick="record_OnClick"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Play"
-        android:id="@+id/play_Btn_ID"
-        android:layout_below="@+id/record_Btn_ID"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:onClick="play_OnClick"/>
-
-    <TextView
-        android:id="@+id/test"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/play_Btn_ID"
-        />
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:padding="3dp"
+        android:layout_below="@+id/looper_song"
+        android:id="@+id/linear0"
+        android:weightSum="2">
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/to_record"
+        android:id="@+id/btn0"
+        android:layout_weight="2"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Menu"
+        android:text="@string/to_delete"
+        android:id="@+id/btn0_delete" />
+
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:padding="3dp"
+        android:layout_below="@+id/linear0"
+        android:weightSum="2">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/to_record"
+            android:id="@+id/btn1"
+            android:layout_weight="2"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/to_delete"
+            android:id="@+id/btn1_delete" />
+
+    </LinearLayout>
+
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/to_menu"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:onClick="toMenu_OnClick"/>
@@ -50,7 +74,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save"
+        android:text="@string/to_save"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
         android:onClick="save_OnClick"/>

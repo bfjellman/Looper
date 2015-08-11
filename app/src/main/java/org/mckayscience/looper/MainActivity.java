@@ -69,7 +69,7 @@ public class MainActivity extends Activity {
                         .apply();
 
                 //Open main menu
-                Intent i = new Intent(getApplicationContext(), MainMenu.class);
+                Intent i = new Intent(getApplicationContext(), MainMenuActivity.class);
 
                 startActivity(i);
                 accessTokenTracker.stopTracking();
@@ -94,7 +94,7 @@ public class MainActivity extends Activity {
 
 
                 Intent i;
-                i = new Intent(getApplicationContext(), MainMenu.class);
+                i = new Intent(getApplicationContext(), MainMenuActivity.class);
 
                 startActivity(i);
                 //Stop tracking this token
@@ -131,7 +131,7 @@ public class MainActivity extends Activity {
                 .putString("CurrentUser", "Guest")
                 .apply();
 
-        Intent i = new Intent(getApplicationContext(), MainMenu.class);
+        Intent i = new Intent(getApplicationContext(), MainMenuActivity.class);
         startActivity(i);
     }
 

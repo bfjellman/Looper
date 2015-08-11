@@ -8,6 +8,7 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,32 +18,33 @@ import android.widget.Toast;
 import java.io.FileInputStream;
 
 
-import com.facebook.AccessToken;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 
 import org.mckayscience.looper.data.UserSongsDb;
+import org.mckayscience.looper.model.Track;
 import org.mckayscience.looper.model.UserInfo;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Looper activity is responsible for recording tracks to go into songs.
  */
 public class LooperActivity extends Activity {
-    /** The mediaplayer object to use for playing */
-    private MediaPlayer mediaPlayer;
+
+    private static final int TOTAL_TRACKS = 5;
+
     /** MediaRecorder object for recording audio */
     private MediaRecorder recorder;
+    private MediaPlayer[] mediaPlayer;
     /** Location to save the tracks */
     private String OUTPUT_FILE;
     //Variables to track recording/playing
     private boolean recordBool;
     private boolean playBool;
-    private Button recordBtn;
-    private Button playBtn;
     private boolean hasRecording;
     /** TextView that holds the song name */
     private TextView songName;
@@ -52,6 +54,13 @@ public class LooperActivity extends Activity {
     private String mSong;
     private String songString;
     private SharedPreferences sharedPreferences;
+
+    //track whether recordings exist per track
+    private Track[] tracks;
+
+    //Delete buttons
+    Button btn0Delete;
+    Button btn1Delete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,11 +78,113 @@ public class LooperActivity extends Activity {
         mSong = sharedPreferences.getString("currentSong", null);
 
         currentTrack = 0;
+        mediaPlayer = new MediaPlayer[5];
+        tracks = new Track[TOTAL_TRACKS];
+
         //Set the output file.
-        OUTPUT_FILE = setOutputFile(Integer.toString(currentTrack));
-        recordBool = true;
-        playBool = true;
+        recordBool = false;
+        playBool = false;
         hasRecording = false;
+
+        for(int i = 0; i < TOTAL_TRACKS; i++) {
+            tracks[i] = new Track(i);
+
+        }
+
+        //find buttons
+        final Button btn0 = (Button)findViewById(R.id.btn0);
+        btn0Delete = (Button)findViewById(R.id.btn0_delete);
+
+        final Button btn1 = (Button)findViewById(R.id.btn1);
+        btn1Delete = (Button)findViewById(R.id.btn1_delete);
+
+        btn0Delete.setEnabled(false);
+        btn1Delete.setEnabled(false);
+
+
+
+
+
+
+
+        //set listeners for all buttons
+
+        //BUTTON ZERO
+        btn0.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                currentTrack = 0;
+                OUTPUT_FILE = setOutputFile(Integer.toString(currentTrack));
+
+                if (!tracks[0].hasRecording) {
+                    try {
+                        record(btn0);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    try {
+                        play(btn0);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        //Button zero delete
+        btn0Delete.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                currentTrack = 0;
+                if(tracks[0].isPlaying) {
+                    stopPlayback();
+                }
+                tracks[0].reset();
+                btn0.setText("Press button to record");
+                btn0Delete.setEnabled(false);
+            }
+        });
+
+        //BUTTON ONE
+        btn1.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                currentTrack = 1;
+                OUTPUT_FILE = setOutputFile(Integer.toString(currentTrack));
+
+                if(!tracks[1].hasRecording) {
+                    try {
+                        record(btn1);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    try {
+                        play(btn1);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        //Button zero delete
+        btn1Delete.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                currentTrack = 1;
+                if(tracks[1].isPlaying) {
+                    stopPlayback();
+                }
+                tracks[1].reset();
+                btn1.setText("Press button to record");
+                btn1Delete.setEnabled(false);
+            }
+        });
+
     }
 
     /**
@@ -111,10 +222,10 @@ public class LooperActivity extends Activity {
         super.onDestroy();
 
         //stop recording and playing when destroyed
-        if(!recordBool) {
+        if(recordBool) {
             stopRecording();
         }
-        if(!playBool){
+        if(playBool){
             stopPlayback();
         }
     }
@@ -123,10 +234,10 @@ public class LooperActivity extends Activity {
         super.onPause();
 
         //stop recording and playing when paused
-        if(!recordBool) {
+        if(recordBool) {
             stopRecording();
         }
-        if(!playBool){
+        if(playBool){
             stopPlayback();
         }
     }
@@ -137,7 +248,7 @@ public class LooperActivity extends Activity {
      * @param v View object associated with the button.
      */
     public void toMenu_OnClick(View v) {
-        Intent i = new Intent(getApplicationContext(), MainMenu.class);
+        Intent i = new Intent(getApplicationContext(), MainMenuActivity.class);
         startActivity(i);
     }
 
@@ -147,7 +258,7 @@ public class LooperActivity extends Activity {
      */
     public void save_OnClick(View v) {
         //Testing TextView to display all songs from the user in the Song window.
-        TextView test = (TextView)findViewById(R.id.test);
+        //TextView test = (TextView)findViewById(R.id.test);
         //Open database
         UserSongsDb userDB = new UserSongsDb(getApplicationContext());
         //Insert the song into the database
@@ -159,7 +270,7 @@ public class LooperActivity extends Activity {
             sb.append(mList.get(i));
             sb.append("\n");
         }
-        test.setText(sb.toString());
+        //test.setText(sb.toString());
         //Close the database
         userDB.closeDB();
 
@@ -188,56 +299,52 @@ public class LooperActivity extends Activity {
 
     }
 
-    /**
-     * Onclick method for record button.
-     * @param v The View for this button.
-     * @throws IOException Exception handling.
-     */
-    public void record_OnClick(View v) throws IOException {
-        recordBtn = (Button) findViewById(R.id.record_Btn_ID);
+
+    public void record(Button b) throws IOException {
 
         //Check if there is something recording, if not, then record.
-        if(recordBool) {
+        if(!recordBool) {
             startRecording();
             Toast.makeText(this, "recording", Toast.LENGTH_SHORT).show();
-            recordBtn.setText("Stop");
+            b.setText("Stop");
 
-        }
-        if(!recordBool){
+        } else {
+
             stopRecording();
-            hasRecording = true;
             Toast.makeText(this, "stopping", Toast.LENGTH_SHORT).show();
-            recordBtn.setText("Record");
+            b.setText("Play");
+
+            tracks[currentTrack].hasRecording = true;
+
+            switch(currentTrack) {
+                case 0:
+                    btn0Delete.setEnabled(true);
+                    break;
+                case 1:
+                    btn1Delete.setEnabled(true);
+                    break;
+
+            }
 
         }
-        recordBool = !recordBool;
     }
 
-    /**
-     * Onclick method for the play button.
-     * @param v The View for the button.
-     * @throws IOException Can throw IOException.
-     */
-    public void play_OnClick(View v) throws IOException {
-        playBtn = (Button) findViewById(R.id.play_Btn_ID);
 
-        if(!hasRecording)
-            return;
+    public void play(Button b) throws IOException {
+
 
         File outFile = new File(OUTPUT_FILE);
-        if(!outFile.exists()) {
+        if (!outFile.exists()) {
             return;
         }
 
-        if(playBool) {
-            playBtn.setText("Stop");
+        if (!tracks[currentTrack].isPlaying) {
+            b.setText("Stop");
             playRecording();
-        }
-        if(!playBool){
-            playBtn.setText("Play");
+        } else {
+            b.setText("Play");
             stopPlayback();
         }
-        playBool = !playBool;
     }
 
     /**
@@ -248,11 +355,11 @@ public class LooperActivity extends Activity {
     private void startRecording() throws IOException {
         ditchMediaRecorder(); //Method to Releases resources associated with this MediaRecorder object.
         //create output file
-        File outFile = new File(OUTPUT_FILE);
+        //File outFile = new File(OUTPUT_FILE);
 
-        //if the output file already exists, delete it.
-        if(outFile.exists())
-            outFile.delete();
+//        //if the output file already exists, delete it.
+//        if(outFile.exists())
+//            outFile.delete();
 
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC); //Set audio source. (Example...Camera, phone conversation, microphone)
@@ -261,6 +368,7 @@ public class LooperActivity extends Activity {
         recorder.setOutputFile(OUTPUT_FILE); //location
         recorder.prepare(); //Prepares the recorder to begin capturing and encoding data.
         recorder.start(); //Begins capturing and encoding data to the file specified with setOutputFile().
+        recordBool = true;
 
     }
 
@@ -268,9 +376,8 @@ public class LooperActivity extends Activity {
      * Method to stop the recording.
      */
     private void stopRecording(){
-        if(recorder != null){
-            recorder.stop();
-        }
+        recorder.stop();
+        recordBool = false;
 
     }
 
@@ -281,12 +388,12 @@ public class LooperActivity extends Activity {
      */
     private void playRecording() throws IOException {
         ditchMediaPlayer();
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setDataSource(OUTPUT_FILE);
-        mediaPlayer.prepare(); //Prepares the recorder to begin capturing and encoding data. Must always prepare before starting, bleh
-        mediaPlayer.setLooping(true);
-        mediaPlayer.start();
-
+        mediaPlayer[currentTrack] = new MediaPlayer();
+        mediaPlayer[currentTrack].setDataSource(OUTPUT_FILE);
+        mediaPlayer[currentTrack].prepare(); //Prepares the recorder to begin capturing and encoding data. Must always prepare before starting, bleh
+        mediaPlayer[currentTrack].setLooping(true);
+        mediaPlayer[currentTrack].start();
+        tracks[currentTrack].isPlaying = true;
 
     }
 
@@ -294,17 +401,19 @@ public class LooperActivity extends Activity {
      * Method to stop the curent playback.
      */
     private void stopPlayback(){
-        if(mediaPlayer != null)
-            mediaPlayer.stop();
+
+        mediaPlayer[currentTrack].stop();
+        tracks[currentTrack].isPlaying = false;
+
     }
 
     /**
      * Method to release the resources assocaited with the MediaPlayer
      */
     private void ditchMediaPlayer() {
-        if(mediaPlayer != null)
+
             try {
-                mediaPlayer.release();//Releases resources associated with this MediaPlayer object.
+                mediaPlayer[currentTrack].release();//Releases resources associated with this MediaPlayer object.
             }
             catch(Exception e){
                 e.printStackTrace();

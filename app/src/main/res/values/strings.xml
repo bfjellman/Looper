@@ -24,7 +24,10 @@
     //Looper activity
     <string name="title_activity_looper">LooperActivity</string>
     <string name="title_activity_song_name">SongName</string>
+    <string name="to_record">Press to Record</string>
+    <string name="to_delete">Delete</string>
+    <string name="to_menu">Menu</string>
+    <string name="to_save">Save</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="title_activity_load">LoadActivity</string>
 </resources>
