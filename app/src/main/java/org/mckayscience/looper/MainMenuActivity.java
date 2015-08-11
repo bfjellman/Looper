@@ -1,11 +1,14 @@
 package org.mckayscience.looper;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -18,30 +21,74 @@ import com.facebook.FacebookSdk;
 public class MainMenuActivity extends Activity {
     /** Track the token for logout */
     private AccessTokenTracker accessTokenTracker;
+    private SharedPreferences sharedPreferences;
+    private boolean isGuest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
+        sharedPreferences = getSharedPreferences(
+                getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
 
-        //Track the token so the Activity knows when a user has logged out of Facebook
-        accessTokenTracker = new AccessTokenTracker() {
-            @Override
-            protected void onCurrentAccessTokenChanged(
-                    AccessToken oldAccessToken,
-                    AccessToken currentAccessToken) {
-                Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                i.putExtra("EXIT", true);
-                startActivity(i);
+        if(sharedPreferences.getString("CurrentUser", null).equals("Guest")) {
+            isGuest = true;
+        } else {
+            isGuest = false;
+        }
 
-                //TODO this is not erasing backstack, why?
-                finish();
-            }
-        };
 
+        if(!isGuest) {
+
+            FacebookSdk.sdkInitialize(getApplicationContext());
+
+            Button b = (Button)findViewById(R.id.guest_logout);
+            b.setEnabled(false);
+            b.setVisibility(View.GONE);
+
+            //Track the token so the Activity knows when a user has logged out of Facebook
+            accessTokenTracker = new AccessTokenTracker() {
+                @Override
+                protected void onCurrentAccessTokenChanged(
+                        AccessToken oldAccessToken,
+                        AccessToken currentAccessToken) {
+                    sharedPreferences = getSharedPreferences(
+                            getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+                    sharedPreferences
+                            .edit()
+                            .putString("CurrentUser", "")
+                            .apply();
+
+                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    i.putExtra("EXIT", true);
+                    startActivity(i);
+
+                    //TODO this is not erasing backstack, why?
+                    finish();
+                }
+            };
+        } else {
+            Button b = (Button)findViewById(R.id.logout_button);
+            b.setEnabled(false);
+            b.setVisibility(View.GONE);
+        }
+
+    }
+
+    public void guestLogout(View v) {
+        
+        sharedPreferences
+                .edit()
+                .putString("CurrentUser", "")
+                .apply();
+
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.putExtra("EXIT", true);
+        startActivity(i);
+        finish();
     }
 
     /**
@@ -76,21 +123,24 @@ public class MainMenuActivity extends Activity {
     protected void onPause() {
         super.onPause();
         //stop tracking when activity is paused.
-        accessTokenTracker.stopTracking();
+        if(!isGuest)
+            accessTokenTracker.stopTracking();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
         //resume tracking the token
-        accessTokenTracker.startTracking();
+        if(!isGuest)
+            accessTokenTracker.startTracking();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         //stop the tracker when activity is destroyed
-        accessTokenTracker.stopTracking();
+        if(!isGuest)
+            accessTokenTracker.stopTracking();
     }
 
 

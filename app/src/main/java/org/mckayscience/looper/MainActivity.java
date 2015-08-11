@@ -50,6 +50,15 @@ public class MainActivity extends Activity {
         sharedPreferences = getSharedPreferences(
                 getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
 
+        if(sharedPreferences.getString("CurrentUser", null) != null ) {
+
+            if(!sharedPreferences.getString("CurrentUser", null).equals("")) {
+                Intent i = new Intent(this, MainMenuActivity.class);
+                startActivity(i);
+                finish();
+            }
+        }
+
         callbackManager = CallbackManager.Factory.create();
 
         setContentView(R.layout.activity_main);
@@ -133,6 +142,7 @@ public class MainActivity extends Activity {
 
         Intent i = new Intent(getApplicationContext(), MainMenuActivity.class);
         startActivity(i);
+        finish();
     }
 
     @Override
