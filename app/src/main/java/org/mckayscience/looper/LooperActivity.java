@@ -192,6 +192,7 @@ public class LooperActivity extends Activity {
         });
 
         if(sharedPreferences.getBoolean("loadSong", false)) {
+            isSaved = true;
             Toast.makeText(LooperActivity.this, "Load was TRUE", Toast.LENGTH_SHORT).show();
             UserSongsDb db = new UserSongsDb(getApplicationContext());
             List<UserInfo> users = db.selectUser(sharedPreferences.getString("CurrentUser", null));
