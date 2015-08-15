@@ -20,8 +20,6 @@
     <string name="song_name_okbtn">Create</string>
     <string name="song_name_cancelbtn">Cancel</string>
 
-
-
     //Looper activity
     <string name="title_activity_looper">LooperActivity</string>
     <string name="title_activity_song_name">SongName</string>
@@ -29,6 +27,12 @@
     <string name="to_delete">Delete</string>
     <string name="to_menu">Menu</string>
     <string name="to_save">Save</string>
+    <string name="dialog_message">Song is not saved.\n\nProceed to menu and lose all unsaved changes?</string>
+    <string name="dialog_click">OK</string>
+    <string name="dialog_cancel">Cancel</string>
 
     <string name="title_activity_load">LoadActivity</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

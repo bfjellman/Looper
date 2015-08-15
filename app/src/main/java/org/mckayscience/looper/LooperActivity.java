@@ -59,6 +59,8 @@ public class LooperActivity extends Activity {
     //track whether recordings exist per track
     private Track[] tracks;
 
+    private boolean isSaved;
+
     //Delete buttons
     Button btn0Delete;
     Button btn1Delete;
@@ -83,6 +85,7 @@ public class LooperActivity extends Activity {
             isGuest = false;
         }
 
+        isSaved = false;
 
         currentTrack = 0;
         mediaPlayer = new MediaPlayer[5];
@@ -138,6 +141,7 @@ public class LooperActivity extends Activity {
 
             @Override
             public void onClick(View v) {
+                isSaved = false;
                 currentTrack = 0;
                 if(tracks[0].isPlaying) {
                     stopPlayback();
@@ -176,6 +180,7 @@ public class LooperActivity extends Activity {
 
             @Override
             public void onClick(View v) {
+                isSaved = false;
                 currentTrack = 1;
                 if(tracks[1].isPlaying) {
                     stopPlayback();
@@ -188,6 +193,28 @@ public class LooperActivity extends Activity {
 
         if(sharedPreferences.getBoolean("loadSong", false)) {
             Toast.makeText(LooperActivity.this, "Load was TRUE", Toast.LENGTH_SHORT).show();
+            UserSongsDb db = new UserSongsDb(getApplicationContext());
+            List<UserInfo> users = db.selectUser(sharedPreferences.getString("CurrentUser", null));
+            for(int i = 0; i < users.size(); i++) {
+                if(sharedPreferences.getString("currentSong", null).equals(users.get(i).getSong())) {
+
+                    if(users.get(i).getTrack0().equals("true")) {
+                        tracks[0].hasRecording = true;
+                        btn0.setText("Play");
+                    }
+                    if(users.get(i).getTrack1().equals("true")) {
+                        tracks[1].hasRecording = true;
+                        btn1.setText("Play");
+                    }
+                    if(users.get(i).getTrack2().equals("true")) {tracks[2].hasRecording = true;}
+                    if(users.get(i).getTrack3().equals("true")) {tracks[3].hasRecording = true;}
+                    if(users.get(i).getTrack4().equals("true")) {tracks[4].hasRecording = true;}
+
+                }
+            }
+
+            db.closeDB();
+
 
         }
 
@@ -254,8 +281,14 @@ public class LooperActivity extends Activity {
      * @param v View object associated with the button.
      */
     public void toMenu_OnClick(View v) {
-        Intent i = new Intent(getApplicationContext(), MainMenuActivity.class);
-        startActivity(i);
+        if(isSaved) {
+            Intent i = new Intent(getApplicationContext(), MainMenuActivity.class);
+            startActivity(i);
+
+        } else {
+            SaveDialogFragment dialog = new SaveDialogFragment();
+            dialog.show(getFragmentManager(), "Menu");
+        }
     }
 
     /**
@@ -263,6 +296,8 @@ public class LooperActivity extends Activity {
      * @param v View object associated with the button.
      */
     public void save_OnClick(View v) {
+
+        isSaved = true;
         //Testing TextView to display all songs from the user in the Song window.
         //TextView test = (TextView)findViewById(R.id.test);
         //Open database
@@ -341,6 +376,8 @@ public class LooperActivity extends Activity {
 
 
     public void record(Button b) throws IOException {
+
+        isSaved = false;
 
         //Check if there is something recording, if not, then record.
         if(!recordBool) {

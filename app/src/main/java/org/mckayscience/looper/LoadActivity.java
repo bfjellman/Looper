@@ -223,7 +223,7 @@ public class LoadActivity extends Activity {
                     sharedPreferences
                             .edit()
                             .putBoolean("loadSong", true)
-                            .putString("songName", songs.get(i))
+                            .putString("currentSong", songs.get(i))
                             .apply();
 
                     Intent intent = new Intent(getApplicationContext(), LooperActivity.class);
