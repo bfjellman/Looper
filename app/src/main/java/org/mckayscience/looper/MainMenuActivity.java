@@ -58,6 +58,7 @@ public class MainMenuActivity extends Activity {
         sharedPreferences
                 .edit()
                 .putBoolean("loadSong", false)
+                .putString("songName", "")
                 .apply();
 
         if(sharedPreferences.getString("CurrentUser", null).equals("Guest")) {

@@ -12,10 +12,17 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.mckayscience.looper.data.UserSongsDb;
+import org.mckayscience.looper.model.UserInfo;
+
+import java.util.List;
+
 /**
  * Activity for handling the creation of the song name.
  */
 public class CreateSongActivity extends Activity {
+
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +36,7 @@ public class CreateSongActivity extends Activity {
      */
     public void newSong(View v) {
 
+
         EditText edit = (EditText)findViewById(R.id.song_name_edit);
         //check if the user entered anything
         if(edit.getText().toString().equals("")) {
@@ -36,8 +44,22 @@ public class CreateSongActivity extends Activity {
             return;
         }
 
-        SharedPreferences sharedPreferences = getSharedPreferences(
+        sharedPreferences = getSharedPreferences(
                 getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+
+        //check if song name is already used with this user
+        UserSongsDb db = new UserSongsDb(getApplicationContext());
+        List<UserInfo> list = db.selectUser(sharedPreferences.getString("CurrentUser", null));
+        for(int i = 0; i < list.size(); i++) {
+            if(edit.getText().toString().equals(list.get(i).getSong())) {
+                Toast.makeText(CreateSongActivity.this, "Song already exists, please enter a new name.", Toast.LENGTH_SHORT).show();
+                edit.setHint("Song Name");
+                edit.setText("");
+                db.closeDB();
+                return;
+            }
+        }
+        db.closeDB();
 
         sharedPreferences
                 .edit()

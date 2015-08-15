@@ -2,6 +2,7 @@ package org.mckayscience.looper;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -196,13 +197,13 @@ public class LoadActivity extends Activity {
         ListView userInfo = (ListView) findViewById(R.id.user_info);
         //Create a database object
 
-        SharedPreferences sharedPreferences = getSharedPreferences(
+        final SharedPreferences sharedPreferences = getSharedPreferences(
                 getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
         //Get a list of songs from the current user.
         List<UserInfo> list =  db.selectUser(sharedPreferences.getString("CurrentUser", null));
         //close DB
         db.closeDB();
-        List<String> songs = new ArrayList<String>();
+        final List<String> songs = new ArrayList<String>();
         for(int i = 0; i < list.size(); i++) {
             songs.add(list.get(i).getSong());
         }
@@ -218,11 +219,21 @@ public class LoadActivity extends Activity {
             userInfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Toast.makeText(getApplicationContext(), "Yay this works", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), Integer.toString(i), Toast.LENGTH_LONG).show();
+                    sharedPreferences
+                            .edit()
+                            .putBoolean("loadSong", true)
+                            .putString("songName", songs.get(i))
+                            .apply();
+
+                    Intent intent = new Intent(getApplicationContext(), LooperActivity.class);
+                    startActivity(intent);
+                    finish();
 
                 }
             });
-            //If there are no songs to display
+
+           //If there are no songs to display
         } else {
             noFile.setEnabled(true);
             noFile.setVisibility(View.VISIBLE);

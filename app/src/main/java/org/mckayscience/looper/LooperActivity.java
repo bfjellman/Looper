@@ -186,6 +186,11 @@ public class LooperActivity extends Activity {
             }
         });
 
+        if(sharedPreferences.getBoolean("loadSong", false)) {
+            Toast.makeText(LooperActivity.this, "Load was TRUE", Toast.LENGTH_SHORT).show();
+
+        }
+
     }
 
     /**
@@ -270,7 +275,6 @@ public class LooperActivity extends Activity {
                 Boolean.toString(tracks[2].hasRecording),
                 Boolean.toString(tracks[3].hasRecording),
                 Boolean.toString(tracks[4].hasRecording));
-
 
         userDB.closeDB();
 
