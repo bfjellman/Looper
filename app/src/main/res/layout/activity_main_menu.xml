@@ -56,14 +56,5 @@
         android:layout_marginTop="30dp"
         android:onClick="guestLogout" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:id="@+id/testBox"
-        android:layout_height="match_parent"
-        android:layout_below="@id/guest_logout"
-        android:text="Hello"
-
-        />
-
 
 </RelativeLayout>

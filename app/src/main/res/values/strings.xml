@@ -9,7 +9,7 @@
     <string name="action_settings">Settings</string>
     //main menu
     <string name="title_activity_main_menu">MainMenu</string>
-    <string name="main_menu_title">Menu</string>
+    <string name="main_menu_title">Android Looper</string>
     <string name="main_menu_create">Create Song</string>
     <string name="main_menu_load">Load Song</string>
     <string name="main_menu_share">Share Song</string>

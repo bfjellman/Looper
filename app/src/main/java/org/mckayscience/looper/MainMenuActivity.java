@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.FacebookSdk;
+import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -24,10 +25,14 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import org.mckayscience.looper.data.UserSongsDb;
+import org.mckayscience.looper.model.UserInfo;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,56 +53,20 @@ public class MainMenuActivity extends Activity {
         sharedPreferences = getSharedPreferences(
                 getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
 
+        //add a shared preference for loadSong to determine whether or not we need to load data
+        //added here because we have multiple logins and all lead to this activity
+        sharedPreferences
+                .edit()
+                .putBoolean("loadSong", false)
+                .apply();
+
         if(sharedPreferences.getString("CurrentUser", null).equals("Guest")) {
             isGuest = true;
         } else {
             isGuest = false;
             FacebookSdk.sdkInitialize(getApplicationContext());
-            loadFromParse();
+
         }
-
-    }
-
-    public void loadFromParse() {
-
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("SongTracks");
-        query.whereEqualTo("userName", sharedPreferences.getString("CurrentUser", null));
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> list, ParseException e) {
-                if(e == null) {
-                    Toast.makeText(MainMenuActivity.this, "Loaded songs", Toast.LENGTH_SHORT).show();
-                    TextView test = (TextView)findViewById(R.id.testBox);
-                    test.setText(list.get(0).getParseFile("userSongTrack").getName());
-                    ParseFile loadSong = list.get(0).getParseFile("userSongTrack");
-                    MediaPlayer mp = new MediaPlayer();
-                    FileOutputStream outputStream;
-                    String outputlocation = Environment.getExternalStorageDirectory() + "/" + loadSong.getName();
-
-                    try {
-                        outputStream = new FileOutputStream(new File(outputlocation));
-                        outputStream.write(loadSong.getData());
-                        outputStream.close();
-                    } catch (FileNotFoundException e1) {
-                        e1.printStackTrace();
-                    } catch (ParseException e1) {
-                        e1.printStackTrace();
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                    try {
-                        mp.setDataSource(outputlocation);
-                        mp.prepare(); //Prepares the recorder to begin capturing and encoding data. Must always prepare before starting, bleh
-                        mp.start();
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-
-                } else {
-                    Toast.makeText(MainMenuActivity.this, "Load song failed", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
     }
 
