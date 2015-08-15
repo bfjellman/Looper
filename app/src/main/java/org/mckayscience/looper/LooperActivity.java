@@ -8,7 +8,6 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,8 +17,11 @@ import android.widget.Toast;
 import java.io.FileInputStream;
 
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import org.mckayscience.looper.data.UserSongsDb;
 import org.mckayscience.looper.model.Track;
@@ -27,7 +29,6 @@ import org.mckayscience.looper.model.UserInfo;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -100,11 +101,6 @@ public class LooperActivity extends Activity {
 
         btn0Delete.setEnabled(false);
         btn1Delete.setEnabled(false);
-
-
-
-
-
 
 
         //set listeners for all buttons
@@ -262,9 +258,17 @@ public class LooperActivity extends Activity {
         //Open database
         UserSongsDb userDB = new UserSongsDb(getApplicationContext());
         //Insert the song into the database
-        userDB.insertSong(sharedPreferences.getString("CurrentUser", null), songName.getText().toString(), OUTPUT_FILE, "", "", "", "");
+        userDB.insertSong(sharedPreferences.getString("CurrentUser", null),
+                songName.getText().toString(),
+                Boolean.toString(tracks[0].hasRecording),
+                Boolean.toString(tracks[1].hasRecording),
+                Boolean.toString(tracks[2].hasRecording),
+                Boolean.toString(tracks[3].hasRecording),
+                Boolean.toString(tracks[4].hasRecording));
+
+
         //Populate the textView with songs from this user
-        List<UserInfo> mList = userDB.selectUsers(sharedPreferences.getString("CurrentUser", null));
+        List<UserInfo> mList = userDB.selectUser(sharedPreferences.getString("CurrentUser", null));
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < mList.size(); i++) {
             sb.append(mList.get(i));
@@ -274,28 +278,61 @@ public class LooperActivity extends Activity {
         //Close the database
         userDB.closeDB();
 
+        //remove previous song entries
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("SongTracks");
+        query.whereEqualTo("userName", sharedPreferences.getString("CurrentUser", null));
+        query.whereEqualTo("songName", songString);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> list, ParseException e) {
+                if (e == null) {
+                    //Toast.makeText(LooperActivity.this, "Found Song", Toast.LENGTH_SHORT).show();
+                    if(list != null) {
+                        for(int i = 0; i < list.size(); i++) {
+                            list.get(i).deleteInBackground();
+                        }
+                    }
 
-        //Changes Track into BYTE[] Form.
-        File songTrack = new File(OUTPUT_FILE);
 
-        byte[] bFile = new byte[(int) songTrack.length()];
-        FileInputStream fileInputStream = null;
+                } else {
+                    Toast.makeText(LooperActivity.this, "Error finding song", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
-        try {
-            //convert file into array of bytes
-            fileInputStream = new FileInputStream(songTrack);
-            fileInputStream.read(bFile);
-            fileInputStream.close();
-        }catch(Exception e){
-            e.printStackTrace();
+        //add new song entries
+
+            //TODO Fix this to 5
+        for(int i = 0; i < 2; i++) {
+
+            if(tracks[i].hasRecording) {
+
+                //Changes Track into BYTE[] Form.
+                File songTrack = new File(setOutputFile(Integer.toString(i)));
+
+                byte[] bFile = new byte[(int) songTrack.length()];
+                FileInputStream fileInputStream = null;
+
+                try {
+                    //convert file into array of bytes
+                    fileInputStream = new FileInputStream(songTrack);
+                    fileInputStream.read(bFile);
+                    fileInputStream.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                //create a parsefile to send to cloud server
+                ParseFile file = new ParseFile(songString + i + ".3gpp", bFile);
+                file.saveInBackground();
+                ParseObject jobApplication = new ParseObject("SongTracks");
+                jobApplication.put("userName", sharedPreferences.getString("CurrentUser", null));
+                jobApplication.put("songName", songString);
+                jobApplication.put("track", i);
+                jobApplication.put("userSongTrack", file);
+                jobApplication.saveInBackground();
+            }
         }
-        //create a parsefile to send to cloud server
-        ParseFile file = new ParseFile(songString + currentTrack + ".3gpp", bFile);
-        file.saveInBackground();
-        ParseObject jobApplication = new ParseObject("SongTracks");
-        jobApplication.put("userName", sharedPreferences.getString("CurrentUser", null));
-        jobApplication.put("userSongTrack", file);
-        jobApplication.saveInBackground();
+        Toast.makeText(LooperActivity.this, "Song Saved!", Toast.LENGTH_SHORT).show();
 
     }
 

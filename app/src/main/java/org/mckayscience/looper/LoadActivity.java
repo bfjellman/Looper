@@ -2,20 +2,13 @@ package org.mckayscience.looper;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,7 +36,7 @@ public class LoadActivity extends Activity {
         SharedPreferences sharedPreferences = getSharedPreferences(
                 getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
         //Get a list of songs from the current user.
-        List<UserInfo> list =  userDB.selectUsers(sharedPreferences.getString("CurrentUser", null));
+        List<UserInfo> list =  userDB.selectUser(sharedPreferences.getString("CurrentUser", null));
         //close DB
         userDB.closeDB();
         //If there are songs to display

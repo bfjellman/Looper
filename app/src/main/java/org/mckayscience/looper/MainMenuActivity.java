@@ -4,16 +4,31 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * This activity acts as the main menu for the application allowing the user to create a song,
@@ -37,13 +52,55 @@ public class MainMenuActivity extends Activity {
             isGuest = true;
         } else {
             isGuest = false;
-        }
-
-        if(!isGuest) {
             FacebookSdk.sdkInitialize(getApplicationContext());
+            loadFromParse();
         }
 
     }
+
+    public void loadFromParse() {
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("SongTracks");
+        query.whereEqualTo("userName", sharedPreferences.getString("CurrentUser", null));
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> list, ParseException e) {
+                if(e == null) {
+                    Toast.makeText(MainMenuActivity.this, "Loaded songs", Toast.LENGTH_SHORT).show();
+                    TextView test = (TextView)findViewById(R.id.testBox);
+                    test.setText(list.get(0).getParseFile("userSongTrack").getName());
+                    ParseFile loadSong = list.get(0).getParseFile("userSongTrack");
+                    MediaPlayer mp = new MediaPlayer();
+                    FileOutputStream outputStream;
+                    String outputlocation = Environment.getExternalStorageDirectory() + "/" + loadSong.getName();
+
+                    try {
+                        outputStream = new FileOutputStream(new File(outputlocation));
+                        outputStream.write(loadSong.getData());
+                        outputStream.close();
+                    } catch (FileNotFoundException e1) {
+                        e1.printStackTrace();
+                    } catch (ParseException e1) {
+                        e1.printStackTrace();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                    try {
+                        mp.setDataSource(outputlocation);
+                        mp.prepare(); //Prepares the recorder to begin capturing and encoding data. Must always prepare before starting, bleh
+                        mp.start();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+
+                } else {
+                    Toast.makeText(MainMenuActivity.this, "Load song failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+
 
     public void guestLogout(View v) {
 

@@ -63,7 +63,7 @@ public class UserSongsDb {
      * @param user The user to return the list of entries from.
      * @return A list of UserInfo objects that contain the information from the database.
      */
-    public List<UserInfo> selectUsers(String user) {
+    public List<UserInfo> selectUser(String user) {
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
         String[] columns = {"userID", "song", "track0", "track1","track2","track3","track4"};
