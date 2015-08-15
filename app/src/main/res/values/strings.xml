@@ -13,6 +13,7 @@
     <string name="main_menu_create">Create Song</string>
     <string name="main_menu_load">Load Song</string>
     <string name="main_menu_share">Share Song</string>
+    <string name="main_menu_logout">Logout</string>
     //create song
     <string name="song_name_text">Please enter a name for the song.</string>
     <string name="song_name_edit">Song Name</string>

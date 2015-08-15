@@ -13,6 +13,7 @@ import android.widget.Button;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 
 /**
  * This activity acts as the main menu for the application allowing the user to create a song,
@@ -38,47 +39,18 @@ public class MainMenuActivity extends Activity {
             isGuest = false;
         }
 
-
         if(!isGuest) {
-
             FacebookSdk.sdkInitialize(getApplicationContext());
-
-            Button b = (Button)findViewById(R.id.guest_logout);
-            b.setEnabled(false);
-            b.setVisibility(View.GONE);
-
-            //Track the token so the Activity knows when a user has logged out of Facebook
-            accessTokenTracker = new AccessTokenTracker() {
-                @Override
-                protected void onCurrentAccessTokenChanged(
-                        AccessToken oldAccessToken,
-                        AccessToken currentAccessToken) {
-                    sharedPreferences = getSharedPreferences(
-                            getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
-                    sharedPreferences
-                            .edit()
-                            .putString("CurrentUser", "")
-                            .apply();
-
-                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    i.putExtra("EXIT", true);
-                    startActivity(i);
-
-                    //TODO this is not erasing backstack, why?
-                    finish();
-                }
-            };
-        } else {
-            Button b = (Button)findViewById(R.id.logout_button);
-            b.setEnabled(false);
-            b.setVisibility(View.GONE);
         }
 
     }
 
     public void guestLogout(View v) {
-        
+
+        if(!isGuest) {
+            LoginManager.getInstance().logOut();
+        }
+
         sharedPreferences
                 .edit()
                 .putString("CurrentUser", "")
@@ -123,24 +95,24 @@ public class MainMenuActivity extends Activity {
     protected void onPause() {
         super.onPause();
         //stop tracking when activity is paused.
-        if(!isGuest)
-            accessTokenTracker.stopTracking();
+        //if(!isGuest)
+            //accessTokenTracker.stopTracking();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
         //resume tracking the token
-        if(!isGuest)
-            accessTokenTracker.startTracking();
+        //if(!isGuest)
+            //accessTokenTracker.startTracking();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         //stop the tracker when activity is destroyed
-        if(!isGuest)
-            accessTokenTracker.stopTracking();
+        //if(!isGuest)
+            //accessTokenTracker.stopTracking();
     }
 
 
