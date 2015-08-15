@@ -46,15 +46,15 @@ public class LooperActivity extends Activity {
     //Variables to track recording/playing
     private boolean recordBool;
     private boolean playBool;
-    private boolean hasRecording;
     /** TextView that holds the song name */
     private TextView songName;
     /** Track the current track number for adding new tracks */
     private int currentTrack;
     /** Song name */
-    private String mSong;
     private String songString;
     private SharedPreferences sharedPreferences;
+
+    private boolean isGuest;
 
     //track whether recordings exist per track
     private Track[] tracks;
@@ -76,7 +76,13 @@ public class LooperActivity extends Activity {
                 getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
         //Set the song name in the TextView
         songName.setText(sharedPreferences.getString("currentSong", null));
-        mSong = sharedPreferences.getString("currentSong", null);
+        //set if guest or not
+        if (sharedPreferences.getString("CurrentUser", null).equals("Guest")) {
+            isGuest = true;
+        } else {
+            isGuest = false;
+        }
+
 
         currentTrack = 0;
         mediaPlayer = new MediaPlayer[5];
@@ -85,7 +91,6 @@ public class LooperActivity extends Activity {
         //Set the output file.
         recordBool = false;
         playBool = false;
-        hasRecording = false;
 
         for(int i = 0; i < TOTAL_TRACKS; i++) {
             tracks[i] = new Track(i);
@@ -267,72 +272,66 @@ public class LooperActivity extends Activity {
                 Boolean.toString(tracks[4].hasRecording));
 
 
-        //Populate the textView with songs from this user
-        List<UserInfo> mList = userDB.selectUser(sharedPreferences.getString("CurrentUser", null));
-        StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < mList.size(); i++) {
-            sb.append(mList.get(i));
-            sb.append("\n");
-        }
-        //test.setText(sb.toString());
-        //Close the database
         userDB.closeDB();
 
-        //remove previous song entries
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("SongTracks");
-        query.whereEqualTo("userName", sharedPreferences.getString("CurrentUser", null));
-        query.whereEqualTo("songName", songString);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> list, ParseException e) {
-                if (e == null) {
-                    //Toast.makeText(LooperActivity.this, "Found Song", Toast.LENGTH_SHORT).show();
-                    if(list != null) {
-                        for(int i = 0; i < list.size(); i++) {
-                            list.get(i).deleteInBackground();
+        if(!isGuest) {
+
+            //remove previous song entries
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("SongTracks");
+            query.whereEqualTo("userName", sharedPreferences.getString("CurrentUser", null));
+            query.whereEqualTo("songName", songString);
+            query.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> list, ParseException e) {
+                    if (e == null) {
+                        //Toast.makeText(LooperActivity.this, "Found Song", Toast.LENGTH_SHORT).show();
+                        if (list != null) {
+                            for (int i = 0; i < list.size(); i++) {
+                                list.get(i).deleteInBackground();
+                            }
                         }
+
+
+                    } else {
+                        Toast.makeText(LooperActivity.this, "Error finding song", Toast.LENGTH_SHORT).show();
                     }
-
-
-                } else {
-                    Toast.makeText(LooperActivity.this, "Error finding song", Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
+            });
 
-        //add new song entries
+            //add new song entries
 
             //TODO Fix this to 5
-        for(int i = 0; i < 2; i++) {
+            for (int i = 0; i < 2; i++) {
 
-            if(tracks[i].hasRecording) {
+                if (tracks[i].hasRecording) {
 
-                //Changes Track into BYTE[] Form.
-                File songTrack = new File(setOutputFile(Integer.toString(i)));
+                    //Changes Track into BYTE[] Form.
+                    File songTrack = new File(setOutputFile(Integer.toString(i)));
 
-                byte[] bFile = new byte[(int) songTrack.length()];
-                FileInputStream fileInputStream = null;
+                    byte[] bFile = new byte[(int) songTrack.length()];
+                    FileInputStream fileInputStream = null;
 
-                try {
-                    //convert file into array of bytes
-                    fileInputStream = new FileInputStream(songTrack);
-                    fileInputStream.read(bFile);
-                    fileInputStream.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    try {
+                        //convert file into array of bytes
+                        fileInputStream = new FileInputStream(songTrack);
+                        fileInputStream.read(bFile);
+                        fileInputStream.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    //create a parsefile to send to cloud server
+                    ParseFile file = new ParseFile(songString + i + ".3gpp", bFile);
+                    file.saveInBackground();
+                    ParseObject jobApplication = new ParseObject("SongTracks");
+                    jobApplication.put("userName", sharedPreferences.getString("CurrentUser", null));
+                    jobApplication.put("songName", songString);
+                    jobApplication.put("track", i);
+                    jobApplication.put("userSongTrack", file);
+                    jobApplication.saveInBackground();
                 }
-                //create a parsefile to send to cloud server
-                ParseFile file = new ParseFile(songString + i + ".3gpp", bFile);
-                file.saveInBackground();
-                ParseObject jobApplication = new ParseObject("SongTracks");
-                jobApplication.put("userName", sharedPreferences.getString("CurrentUser", null));
-                jobApplication.put("songName", songString);
-                jobApplication.put("track", i);
-                jobApplication.put("userSongTrack", file);
-                jobApplication.saveInBackground();
             }
+            Toast.makeText(LooperActivity.this, "Song Saved!", Toast.LENGTH_SHORT).show();
         }
-        Toast.makeText(LooperActivity.this, "Song Saved!", Toast.LENGTH_SHORT).show();
 
     }
 
