@@ -43,6 +43,9 @@ public class CreateSongActivity extends Activity {
             Toast.makeText(this, "Please enter a song name.", Toast.LENGTH_LONG).show();
             return;
         }
+        if(edit.getText().toString().contains("-Shared")) {
+            Toast.makeText(CreateSongActivity.this, "Song name cannot contain \"-Shared\"", Toast.LENGTH_SHORT).show();
+        }
 
         sharedPreferences = getSharedPreferences(
                 getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);

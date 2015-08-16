@@ -247,7 +247,7 @@ public class LoadActivity extends Activity {
 
                 ParseObject newParse = new ParseObject("SongTracks");
                 newParse.put("userName", sharedPreferences.getString("Shared", null));
-                newParse.put("songName", sharedSong + "shared");
+                newParse.put("songName", sharedSong + "-shared");
                 newParse.put("track", parseList.get(i).getNumber("track"));
                 newParse.put("userSongTrack", parseList.get(i).getParseFile("userSongTrack"));
                 newParse.saveInBackground();
