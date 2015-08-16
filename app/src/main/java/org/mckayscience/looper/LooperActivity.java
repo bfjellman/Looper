@@ -61,9 +61,20 @@ public class LooperActivity extends Activity {
 
     private boolean isSaved;
 
+    //Record/Play Buttons
+    Button btn0;
+    Button btn1;
+    Button btn2;
+    Button btn3;
+    Button btn4;
+
     //Delete buttons
     Button btn0Delete;
     Button btn1Delete;
+    Button btn2Delete;
+    Button btn3Delete;
+    Button btn4Delete;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,14 +112,27 @@ public class LooperActivity extends Activity {
         }
 
         //find buttons
-        final Button btn0 = (Button)findViewById(R.id.btn0);
+        btn0 = (Button)findViewById(R.id.btn0);
         btn0Delete = (Button)findViewById(R.id.btn0_delete);
 
-        final Button btn1 = (Button)findViewById(R.id.btn1);
+        btn1 = (Button)findViewById(R.id.btn1);
         btn1Delete = (Button)findViewById(R.id.btn1_delete);
+
+        btn2 = (Button)findViewById(R.id.btn2);
+        btn2Delete = (Button)findViewById(R.id.btn2_delete);
+
+        btn3 = (Button)findViewById(R.id.btn3);
+        btn3Delete = (Button)findViewById(R.id.btn3_delete);
+
+        btn4 = (Button)findViewById(R.id.btn4);
+        btn4Delete = (Button)findViewById(R.id.btn4_delete);
+
 
         btn0Delete.setEnabled(false);
         btn1Delete.setEnabled(false);
+        btn2Delete.setEnabled(false);
+        btn3Delete.setEnabled(false);
+        btn4Delete.setEnabled(false);
 
 
         //set listeners for all buttons
@@ -122,8 +146,13 @@ public class LooperActivity extends Activity {
                 OUTPUT_FILE = setOutputFile(Integer.toString(currentTrack));
 
                 if (!tracks[0].hasRecording) {
+                    if(recordBool && !tracks[0].isRecording) {
+                        return;
+                    }
                     try {
                         record(btn0);
+                        tracks[0].isRecording = !tracks[0].isRecording;
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -147,7 +176,7 @@ public class LooperActivity extends Activity {
                     stopPlayback();
                 }
                 tracks[0].reset();
-                btn0.setText("Press button to record");
+                btn0.setText("Press to Record");
                 btn0Delete.setEnabled(false);
             }
         });
@@ -161,8 +190,14 @@ public class LooperActivity extends Activity {
                 OUTPUT_FILE = setOutputFile(Integer.toString(currentTrack));
 
                 if(!tracks[1].hasRecording) {
+                    if(recordBool && !tracks[1].isRecording) {
+                        return;
+                    }
+
                     try {
                         record(btn1);
+                        tracks[1].isRecording = !tracks[1].isRecording;
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -175,7 +210,7 @@ public class LooperActivity extends Activity {
                 }
             }
         });
-        //Button zero delete
+        //Button one delete
         btn1Delete.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -186,14 +221,147 @@ public class LooperActivity extends Activity {
                     stopPlayback();
                 }
                 tracks[1].reset();
-                btn1.setText("Press button to record");
+                btn1.setText("Press to Record");
                 btn1Delete.setEnabled(false);
             }
         });
 
+        //BUTTON TWO
+        btn2.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                currentTrack = 2;
+                OUTPUT_FILE = setOutputFile(Integer.toString(currentTrack));
+
+                if (!tracks[2].hasRecording) {
+                    if(recordBool && !tracks[2].isRecording) {
+                        return;
+                    }
+
+                    try {
+                        record(btn2);
+                        tracks[2].isRecording = !tracks[2].isRecording;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    try {
+                        play(btn2);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        //Button two delete
+        btn2Delete.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                isSaved = false;
+                currentTrack = 2;
+                if(tracks[2].isPlaying) {
+                    stopPlayback();
+                }
+                tracks[2].reset();
+                btn2.setText("Press to Record");
+                btn2Delete.setEnabled(false);
+            }
+        });
+
+        //BUTTON THREE
+        btn3.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                currentTrack = 3;
+                OUTPUT_FILE = setOutputFile(Integer.toString(currentTrack));
+
+                if (!tracks[3].hasRecording) {
+                    if(recordBool && !tracks[3].isRecording) {
+                        return;
+                    }
+
+                    try {
+                        record(btn3);
+                        tracks[3].isRecording = !tracks[3].isRecording;
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    try {
+                        play(btn3);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        //Button three delete
+        btn3Delete.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                isSaved = false;
+                currentTrack = 3;
+                if(tracks[3].isPlaying) {
+                    stopPlayback();
+                }
+                tracks[3].reset();
+                btn3.setText("Press to Record");
+                btn3Delete.setEnabled(false);
+            }
+        });
+
+        //BUTTON FOUR
+        btn4.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                currentTrack = 4;
+                OUTPUT_FILE = setOutputFile(Integer.toString(currentTrack));
+
+                if (!tracks[4].hasRecording) {
+                    if(recordBool && !tracks[4].isRecording) {
+                        return;
+                    }
+
+                    try {
+                        record(btn4);
+                        tracks[4].isRecording = !tracks[4].isRecording;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    try {
+                        play(btn4);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        //Button four delete
+        btn4Delete.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                isSaved = false;
+                currentTrack = 4;
+                if(tracks[4].isPlaying) {
+                    stopPlayback();
+                }
+                tracks[4].reset();
+                btn4.setText("PRESS TO RECORD");
+                btn4Delete.setEnabled(false);
+            }
+        });
+
+
         if(sharedPreferences.getBoolean("loadSong", false)) {
             isSaved = true;
-            Toast.makeText(LooperActivity.this, "Load was TRUE", Toast.LENGTH_SHORT).show();
             UserSongsDb db = new UserSongsDb(getApplicationContext());
             List<UserInfo> users = db.selectUser(sharedPreferences.getString("CurrentUser", null));
             for(int i = 0; i < users.size(); i++) {
@@ -202,14 +370,28 @@ public class LooperActivity extends Activity {
                     if(users.get(i).getTrack0().equals("true")) {
                         tracks[0].hasRecording = true;
                         btn0.setText("Play");
+                        btn0Delete.setEnabled(true);
                     }
                     if(users.get(i).getTrack1().equals("true")) {
                         tracks[1].hasRecording = true;
                         btn1.setText("Play");
+                        btn1Delete.setEnabled(true);
                     }
-                    if(users.get(i).getTrack2().equals("true")) {tracks[2].hasRecording = true;}
-                    if(users.get(i).getTrack3().equals("true")) {tracks[3].hasRecording = true;}
-                    if(users.get(i).getTrack4().equals("true")) {tracks[4].hasRecording = true;}
+                    if(users.get(i).getTrack2().equals("true")) {
+                        tracks[2].hasRecording = true;
+                        btn2.setText("Play");
+                        btn2Delete.setEnabled(true);
+                    }
+                    if(users.get(i).getTrack3().equals("true")) {
+                        tracks[3].hasRecording = true;
+                        btn3.setText("Play");
+                        btn3Delete.setEnabled(true);
+                    }
+                    if(users.get(i).getTrack4().equals("true")) {
+                        tracks[4].hasRecording = true;
+                        btn4.setText("Play");
+                        btn4Delete.setEnabled(true);
+                    }
 
                 }
             }
@@ -282,11 +464,38 @@ public class LooperActivity extends Activity {
      * @param v View object associated with the button.
      */
     public void toMenu_OnClick(View v) {
+
+        //stop all playback
+        for(int i = 0; i < TOTAL_TRACKS; i++) {
+            if(tracks[i].isPlaying) {
+                currentTrack = i;
+
+                //change button text
+                switch(i) {
+                    case 0:
+                        btn0.performClick();
+                        break;
+                    case 1:
+                        btn1.performClick();
+                        break;
+                    case 2:
+                        btn2.performClick();
+                        break;
+                    case 3:
+                        btn3.performClick();
+                        break;
+                    case 4:
+                        btn4.performClick();
+                        break;
+                }
+            }
+        }
+        //If saved to to menu
         if(isSaved) {
             Intent i = new Intent(getApplicationContext(), MainMenuActivity.class);
             startActivity(i);
 
-        } else {
+        } else { //not saved, dialog them
             SaveDialogFragment dialog = new SaveDialogFragment();
             dialog.show(getFragmentManager(), "Menu");
         }
@@ -339,9 +548,7 @@ public class LooperActivity extends Activity {
             });
 
             //add new song entries
-
-            //TODO Fix this to 5
-            for (int i = 0; i < 2; i++) {
+            for (int i = 0; i < 5; i++) {
 
                 if (tracks[i].hasRecording) {
 
@@ -370,8 +577,9 @@ public class LooperActivity extends Activity {
                     jobApplication.saveInBackground();
                 }
             }
-            Toast.makeText(LooperActivity.this, "Song Saved!", Toast.LENGTH_SHORT).show();
         }
+        Toast.makeText(LooperActivity.this, "Song Saved!", Toast.LENGTH_SHORT).show();
+
 
     }
 
@@ -401,9 +609,17 @@ public class LooperActivity extends Activity {
                 case 1:
                     btn1Delete.setEnabled(true);
                     break;
+                case 2:
+                    btn2Delete.setEnabled(true);
+                    break;
+                case 3:
+                    btn3Delete.setEnabled(true);
+                    break;
+                case 4:
+                    btn4Delete.setEnabled(true);
+                    break;
 
             }
-
         }
     }
 

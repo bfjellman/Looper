@@ -8,16 +8,19 @@ public class Track {
     public int trackNum;
     public boolean isPlaying;
     public boolean hasRecording;
+    public boolean isRecording;
 
     public Track(int number) {
 
         trackNum = number;
         isPlaying = false;
         hasRecording = false;
+        isRecording = false;
     }
 
     public void reset() {
         isPlaying = false;
         hasRecording = false;
+        isRecording = false;
     }
 }

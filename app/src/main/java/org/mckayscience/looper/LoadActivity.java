@@ -219,7 +219,6 @@ public class LoadActivity extends Activity {
             userInfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Toast.makeText(getApplicationContext(), Integer.toString(i), Toast.LENGTH_LONG).show();
                     sharedPreferences
                             .edit()
                             .putBoolean("loadSong", true)
