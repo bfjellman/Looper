@@ -62,18 +62,18 @@ public class LooperActivity extends Activity {
     private boolean isSaved;
 
     //Record/Play Buttons
-    Button btn0;
-    Button btn1;
-    Button btn2;
-    Button btn3;
-    Button btn4;
+    private Button btn0;
+    private Button btn1;
+    private Button btn2;
+    private Button btn3;
+    private Button btn4;
 
     //Delete buttons
-    Button btn0Delete;
-    Button btn1Delete;
-    Button btn2Delete;
-    Button btn3Delete;
-    Button btn4Delete;
+    private Button btn0Delete;
+    private Button btn1Delete;
+    private Button btn2Delete;
+    private Button btn3Delete;
+    private Button btn4Delete;
 
 
     @Override
@@ -127,7 +127,7 @@ public class LooperActivity extends Activity {
         btn4 = (Button)findViewById(R.id.btn4);
         btn4Delete = (Button)findViewById(R.id.btn4_delete);
 
-
+        //disable delete buttons
         btn0Delete.setEnabled(false);
         btn1Delete.setEnabled(false);
         btn2Delete.setEnabled(false);
@@ -360,7 +360,8 @@ public class LooperActivity extends Activity {
             }
         });
 
-
+        //Check if the activity was opened from the load activity.
+        //If so, then load the song information.
         if(sharedPreferences.getBoolean("loadSong", false)) {
             isSaved = true;
             UserSongsDb db = new UserSongsDb(getApplicationContext());
@@ -398,14 +399,19 @@ public class LooperActivity extends Activity {
             }
 
             db.closeDB();
-
+            //reset load song field
+            sharedPreferences
+                    .edit()
+                    .putBoolean("loadSong", false)
+                    .apply();
 
         }
 
     }
 
     /**
-     * Creates a destination string to set the output file
+     * Creates a destination string to set the output file.
+     *
      * @param track The track number for creating file name.
      * @return A string value for the desintation and filename of the current track.
      */
@@ -439,7 +445,7 @@ public class LooperActivity extends Activity {
         super.onDestroy();
 
         //stop recording and playing when destroyed
-        if(recordBool) {
+        if (recordBool) {
             stopRecording();
         }
         if(playBool){
@@ -524,7 +530,7 @@ public class LooperActivity extends Activity {
 
         userDB.closeDB();
 
-        if(!isGuest) {
+        if (!isGuest) {
 
             //remove previous song entries
             ParseQuery<ParseObject> query = ParseQuery.getQuery("SongTracks");
@@ -584,7 +590,13 @@ public class LooperActivity extends Activity {
 
     }
 
-
+    /**
+     * Checks if the Recorder is currently recording.  If it is, it still stop the recording.
+     * If it is not, it will start the recorder.
+     *
+     * @param b Button that called the method.
+     * @throws IOException Throws an IOException.
+     */
     public void record(Button b) throws IOException {
 
         isSaved = false;
@@ -627,7 +639,12 @@ public class LooperActivity extends Activity {
         }
     }
 
-
+    /**
+     * Plays the recording attached for the current tracks mediarecorder.
+     *
+     * @param b The button that called the method.
+     * @throws IOException Throws IOException.
+     */
     public void play(Button b) throws IOException {
 
 
@@ -666,7 +683,9 @@ public class LooperActivity extends Activity {
     }
 
     /**
-     * Method to stop the recording.
+     * Stops the current recording
+     *
+     * @return Returns a 0 if successful and a 1 if not.
      */
     private int stopRecording(){
         recordBool = false;
@@ -698,7 +717,7 @@ public class LooperActivity extends Activity {
     }
 
     /**
-     * Method to stop the curent playback.
+     * Method to stop the current playback.
      */
     private void stopPlayback(){
 
@@ -708,7 +727,7 @@ public class LooperActivity extends Activity {
     }
 
     /**
-     * Method to release the resources assocaited with the MediaPlayer
+     * Method to release the resources associated with the MediaPlayer
      */
     private void ditchMediaPlayer() {
 
@@ -721,7 +740,7 @@ public class LooperActivity extends Activity {
     }
 
     /**
-     * Method to release the recources associated with the MediaRecorder
+     * Method to release the resources associated with the MediaRecorder
      */
     private void ditchMediaRecorder() {
         if(recorder != null)
