@@ -42,6 +42,7 @@ public class LoadActivity extends Activity {
     private TextView noFile;
     private UserSongsDb db;
     private String userId;
+    private List<ParseObject> parseList;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -51,15 +52,10 @@ public class LoadActivity extends Activity {
         noFile = (TextView)findViewById(R.id.load_no_songs);
         db = new UserSongsDb(getApplicationContext());
 
-
-
         sharedPreferences = getSharedPreferences(
                 getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
 
         userId = sharedPreferences.getString("CurrentUser", null);
-
-
-    //TODO Only for Facebook login - load normally for guest
 
         if(sharedPreferences.getString("CurrentUser", null).equals("Guest")) {
             load(db, noFile);
@@ -87,6 +83,7 @@ public class LoadActivity extends Activity {
             public void done(List<ParseObject> list, ParseException e) {
                 if (e == null) {
                     Toast.makeText(LoadActivity.this, "Loaded songs", Toast.LENGTH_SHORT).show();
+                    parseList = list;
 
                     List<UserInfo> userSongs = db.selectUser(sharedPreferences.getString("CurrentUser", null));
 
@@ -152,34 +149,7 @@ public class LoadActivity extends Activity {
                                 counter = 0;
                             }
                         }
-
-
                     }
-             /*       ParseFile loadSong = list.get(0).getParseFile("userSongTrack");
-                    //MediaPlayer mp = new MediaPlayer();
-                    FileOutputStream outputStream;
-
-
-                    String outputlocation = setOutput(userId, "hello"); //TODO
-
-                    try {
-                        outputStream = new FileOutputStream(new File(outputlocation));
-                        outputStream.write(loadSong.getData());
-                        outputStream.close();
-                    } catch (FileNotFoundException e1) {
-                        e1.printStackTrace();
-                    } catch (ParseException e1) {
-                        e1.printStackTrace();
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }*/
-                 /*   try {
-                        mp.setDataSource(outputlocation);
-                        mp.prepare(); //Prepares the recorder to begin capturing and encoding data. Must always prepare before starting, bleh
-                        mp.start();
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }*/
 
                     //end
                     noFile.setEnabled(false);
@@ -219,15 +189,22 @@ public class LoadActivity extends Activity {
             userInfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    sharedPreferences
-                            .edit()
-                            .putBoolean("loadSong", true)
-                            .putString("currentSong", songs.get(i))
-                            .apply();
 
-                    Intent intent = new Intent(getApplicationContext(), LooperActivity.class);
-                    startActivity(intent);
-                    finish();
+                    if(sharedPreferences.getString("Shared", null).equals("")) {
+                        sharedPreferences
+                                .edit()
+                                .putBoolean("loadSong", true)
+                                .putString("currentSong", songs.get(i))
+                                .apply();
+
+                        Intent intent = new Intent(getApplicationContext(), LooperActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+
+                        shareSong(songs, i);
+
+                    }
 
                 }
             });
@@ -238,6 +215,30 @@ public class LoadActivity extends Activity {
             noFile.setVisibility(View.VISIBLE);
             noFile.setText("No files found.");
         }
+    }
+
+    private void shareSong(List<String> songs, int index) {
+
+        String sharedSong = songs.get(index);
+
+        for(int i = 0; i < parseList.size(); i++) {
+
+            if(parseList.get(i).getString("songName").equals(sharedSong)) {
+                Toast.makeText(LoadActivity.this, "Found Song", Toast.LENGTH_SHORT).show();
+
+                ParseObject newParse = new ParseObject("SongTracks");
+                newParse.put("userName", sharedPreferences.getString("Shared", null));
+                newParse.put("songName", sharedSong + "shared");
+                newParse.put("track", parseList.get(i).getNumber("track"));
+                newParse.put("userSongTrack", parseList.get(i).getParseFile("userSongTrack"));
+                newParse.saveInBackground();
+            }
+
+        }
+        Toast.makeText(LoadActivity.this, "Song Shared!", Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(getApplicationContext(), MainMenuActivity.class);
+        startActivity(i);
+        finish();
     }
 
     private String setOutput(String userId, String songName, String track) {

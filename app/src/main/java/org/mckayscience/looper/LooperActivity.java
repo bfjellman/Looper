@@ -134,7 +134,6 @@ public class LooperActivity extends Activity {
         btn3Delete.setEnabled(false);
         btn4Delete.setEnabled(false);
 
-
         //set listeners for all buttons
 
         //BUTTON ZERO
@@ -394,7 +393,6 @@ public class LooperActivity extends Activity {
                         btn4.setText("Play");
                         btn4Delete.setEnabled(true);
                     }
-
                 }
             }
 
@@ -406,7 +404,6 @@ public class LooperActivity extends Activity {
                     .apply();
 
         }
-
     }
 
     /**

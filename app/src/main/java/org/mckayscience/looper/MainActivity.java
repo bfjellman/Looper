@@ -49,6 +49,11 @@ public class MainActivity extends Activity {
 
         sharedPreferences = getSharedPreferences(
                 getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+        //initialize shared value
+        sharedPreferences
+                .edit()
+                .putString("Shared", "")
+                .apply();
 
         if(sharedPreferences.getString("CurrentUser", null) != null ) {
 

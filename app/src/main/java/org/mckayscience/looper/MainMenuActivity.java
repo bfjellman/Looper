@@ -1,7 +1,9 @@
 package org.mckayscience.looper;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
@@ -11,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +56,9 @@ public class MainMenuActivity extends Activity {
         sharedPreferences = getSharedPreferences(
                 getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
 
+        TextView userID = (TextView)findViewById(R.id.main_menu_userID);
+        userID.setText("UserID: " + sharedPreferences.getString("CurrentUser", null));
+
         //add a shared preference for loadSong to determine whether or not we need to load data
         //added here because we have multiple logins and all lead to this activity
         sharedPreferences
@@ -61,16 +67,21 @@ public class MainMenuActivity extends Activity {
                 .putString("songName", "")
                 .apply();
 
+        //set if user is guest or not
+        //disable share button if guest - enable of not guest
         if(sharedPreferences.getString("CurrentUser", null).equals("Guest")) {
             isGuest = true;
+            Button share = (Button)findViewById(R.id.share_Song_Btn_ID);
+            share.setEnabled(false);
         } else {
             isGuest = false;
             FacebookSdk.sdkInitialize(getApplicationContext());
+            Button share = (Button)findViewById(R.id.share_Song_Btn_ID);
+            share.setEnabled(true);
 
         }
 
     }
-
 
     public void guestLogout(View v) {
 
@@ -115,6 +126,9 @@ public class MainMenuActivity extends Activity {
      * @param v View for the button.
      */
     public void shareSong_onClick(View v) {
+
+        ShareDialogFragment dialog = new ShareDialogFragment();
+        dialog.show(getFragmentManager(), "Menu");
 
     }
 
