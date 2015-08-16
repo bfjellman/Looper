@@ -70,6 +70,12 @@ public class LoadActivity extends Activity {
         }
     }
 
+    /**
+     * Retrieves all songs from the user that are stored on the cloud and populates internal memory
+     * for all songs that did not exist.
+     *
+     * @throws ParseException Throws exception.
+     */
     public void loadFromParse() throws ParseException {
 
         final String userId = sharedPreferences.getString("CurrentUser", null);
@@ -163,6 +169,12 @@ public class LoadActivity extends Activity {
         });
     }
 
+    /**
+     * Populates the load adapter to allow the user to select a song.
+     *
+     * @param db The SQLite database of internal memory songs.
+     * @param noFile The TextView on top of Activity to display information.
+     */
     private void load(UserSongsDb db, TextView noFile) {
         ListView userInfo = (ListView) findViewById(R.id.user_info);
         //Create a database object
@@ -217,6 +229,13 @@ public class LoadActivity extends Activity {
         }
     }
 
+    /**
+     * Method that will iterate through the list of songs from Parse, find the one wanting
+     * to be shared and upload that song to the new user.
+     *
+     * @param songs List of songs on activity.
+     * @param index Index of the song clicked to share.
+     */
     private void shareSong(List<String> songs, int index) {
 
         String sharedSong = songs.get(index);
@@ -241,6 +260,14 @@ public class LoadActivity extends Activity {
         finish();
     }
 
+    /**
+     * Sets the output to save files to from cloud.
+     *
+     * @param userId User ID of the person to be saved.
+     * @param songName Name of song to be saved.
+     * @param track Track number for song.
+     * @return String representation of the path to use for fileoutput.
+     */
     private String setOutput(String userId, String songName, String track) {
         //check if Android org.mckayscience.looper.Looper directory exists, if not, create one
         boolean isDir = (new File(Environment.getExternalStorageDirectory() + "/AndroidLooper")).exists();

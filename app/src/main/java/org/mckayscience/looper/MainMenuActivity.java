@@ -44,7 +44,6 @@ import java.util.List;
  */
 public class MainMenuActivity extends Activity {
     /** Track the token for logout */
-    private AccessTokenTracker accessTokenTracker;
     private SharedPreferences sharedPreferences;
     private boolean isGuest;
 
@@ -83,6 +82,11 @@ public class MainMenuActivity extends Activity {
 
     }
 
+    /**
+     * Method to log the guest out of the app and return to login screen.
+     *
+     * @param v View that called method
+     */
     public void guestLogout(View v) {
 
         if(!isGuest) {
