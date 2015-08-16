@@ -163,6 +163,7 @@ public class LooperActivity extends Activity {
                         e.printStackTrace();
                     }
                 }
+
             }
         });
         //Button zero delete
@@ -596,7 +597,10 @@ public class LooperActivity extends Activity {
 
         } else {
 
-            stopRecording();
+            if(stopRecording() == 1) {
+                b.setText("Press to Record");
+                return;
+            }
             Toast.makeText(this, "stopping", Toast.LENGTH_SHORT).show();
             b.setText("Play");
 
@@ -647,13 +651,8 @@ public class LooperActivity extends Activity {
      * @throws IOException Throws IOException
      */
     private void startRecording() throws IOException {
-        ditchMediaRecorder(); //Method to Releases resources associated with this MediaRecorder object.
-        //create output file
-        //File outFile = new File(OUTPUT_FILE);
 
-//        //if the output file already exists, delete it.
-//        if(outFile.exists())
-//            outFile.delete();
+        ditchMediaRecorder(); //Method to Releases resources associated with this MediaRecorder object.
 
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC); //Set audio source. (Example...Camera, phone conversation, microphone)
@@ -669,10 +668,17 @@ public class LooperActivity extends Activity {
     /**
      * Method to stop the recording.
      */
-    private void stopRecording(){
-        recorder.stop();
+    private int stopRecording(){
         recordBool = false;
+        try {
+            recorder.stop();
+            return 0;
+        }catch(RuntimeException stopException) {
+            //User pressed stop too fast after start.
+            Toast.makeText(LooperActivity.this, "Record failed, pressed stop too quickly after record.", Toast.LENGTH_SHORT).show();
+            return 1;
 
+        }
     }
 
     /**
