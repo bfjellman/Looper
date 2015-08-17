@@ -179,8 +179,6 @@ public class LoadActivity extends Activity {
         ListView userInfo = (ListView) findViewById(R.id.user_info);
         //Create a database object
 
-        final SharedPreferences sharedPreferences = getSharedPreferences(
-                getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
         //Get a list of songs from the current user.
         List<UserInfo> list =  db.selectUser(sharedPreferences.getString("CurrentUser", null));
         //close DB
@@ -254,6 +252,12 @@ public class LoadActivity extends Activity {
             }
 
         }
+        //reset shared field
+        sharedPreferences
+                .edit()
+                .putString("Shared", "")
+                .apply();
+
         Toast.makeText(LoadActivity.this, "Song Shared!", Toast.LENGTH_SHORT).show();
         Intent i = new Intent(getApplicationContext(), MainMenuActivity.class);
         startActivity(i);
