@@ -670,10 +670,10 @@ public class LooperActivity extends Activity {
         ditchMediaRecorder(); //Method to Releases resources associated with this MediaRecorder object.
 
         recorder = new MediaRecorder();
-        recorder.setAudioSource(MediaRecorder.AudioSource.MIC); //Set audio source. (Example...Camera, phone conversation, microphone)
+        recorder.setAudioSource(MediaRecorder.AudioSource.VOICE_RECOGNITION); //Set audio source. (Example...Camera, phone conversation, microphone)
         recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4); //Set format to MPEG_4
-        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB); //Encoding in advanced audio codec because it sounded cool
-        recorder.setAudioEncodingBitRate(16);
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC); //Encoding in advanced audio codec because it sounded cool
+        recorder.setAudioEncodingBitRate(96000);
         recorder.setAudioSamplingRate(44100);
         recorder.setOutputFile(OUTPUT_FILE); //location
         recorder.prepare(); //Prepares the recorder to begin capturing and encoding data.
