@@ -9,139 +9,153 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Song Name"
+        android:text="@string/song_name_looper"
         android:id="@+id/looper_song"/>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:padding="3dp"
+        android:layout_height="match_parent"
         android:layout_below="@+id/looper_song"
-        android:id="@+id/linear0"
-        android:weightSum="2">
+        android:layout_above="@+id/save_button">
 
-    <Button
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/to_record"
-        android:id="@+id/btn0"
-        android:layout_weight="2"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:padding="3dp"
+            android:layout_below="@+id/looper_song"
+            android:id="@+id/linear0"
+            android:weightSum="2">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/to_record"
+            android:id="@+id/btn0"
+            android:layout_weight="2"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/to_delete"
+            android:id="@+id/btn0_delete" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:id="@+id/linear1"
+            android:padding="3dp"
+            android:layout_below="@+id/linear0"
+            android:weightSum="2">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/to_record"
+                android:id="@+id/btn1"
+                android:layout_weight="2"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/to_delete"
+                android:id="@+id/btn1_delete" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:padding="3dp"
+            android:layout_below="@+id/linear1"
+            android:id="@+id/linear2"
+            android:weightSum="2">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/to_record"
+                android:id="@+id/btn2"
+                android:layout_weight="2"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/to_delete"
+                android:id="@+id/btn2_delete" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:padding="3dp"
+            android:layout_below="@+id/linear2"
+            android:id="@+id/linear3"
+            android:weightSum="2">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/to_record"
+                android:id="@+id/btn3"
+                android:layout_weight="2"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/to_delete"
+                android:id="@+id/btn3_delete" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:padding="3dp"
+            android:layout_below="@+id/linear3"
+            android:id="@+id/linear4"
+            android:weightSum="2">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/to_record"
+                android:id="@+id/btn4"
+                android:layout_weight="2"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/to_delete"
+                android:id="@+id/btn4_delete" />
+
+        </LinearLayout>
+    </LinearLayout>
+    </ScrollView>
+
+
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/to_delete"
-        android:id="@+id/btn0_delete" />
-
-</LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:id="@+id/linear1"
-        android:padding="3dp"
-        android:layout_below="@+id/linear0"
-        android:weightSum="2">
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/to_record"
-            android:id="@+id/btn1"
-            android:layout_weight="2"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/to_delete"
-            android:id="@+id/btn1_delete" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:padding="3dp"
-        android:layout_below="@+id/linear1"
-        android:id="@+id/linear2"
-        android:weightSum="2">
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/to_record"
-            android:id="@+id/btn2"
-            android:layout_weight="2"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/to_delete"
-            android:id="@+id/btn2_delete" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:padding="3dp"
-        android:layout_below="@+id/linear2"
-        android:id="@+id/linear3"
-        android:weightSum="2">
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/to_record"
-            android:id="@+id/btn3"
-            android:layout_weight="2"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/to_delete"
-            android:id="@+id/btn3_delete" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:padding="3dp"
-        android:layout_below="@+id/linear3"
-        android:id="@+id/linear4"
-        android:weightSum="2">
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/to_record"
-            android:id="@+id/btn4"
-            android:layout_weight="2"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/to_delete"
-            android:id="@+id/btn4_delete" />
-
-    </LinearLayout>
-
-
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/menu_button"
         android:text="@string/to_menu"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
@@ -150,6 +164,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/save_button"
         android:text="@string/to_save"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"

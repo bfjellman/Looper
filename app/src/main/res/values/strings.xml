@@ -31,6 +31,7 @@
     <string name="dialog_message">Song is not saved.\n\nExit anyways?</string>
     <string name="dialog_click">OK</string>
     <string name="dialog_cancel">Cancel</string>
+    <string name="song_name_looper">Song name</string>
 
     <string name="title_activity_load">LoadActivity</string>
 
