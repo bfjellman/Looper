@@ -88,7 +88,7 @@ public class UserInfo {
         sb.append("Track1: " + mTrack1 + " | ");
         sb.append("Track2: " + mTrack2 + " | ");
         sb.append("Track3: " + mTrack3 + " | ");
-        sb.append("Track4: " + mTrack4 + " | ");
+        sb.append("Track4: " + mTrack4);
         sb.append("}");
         return sb.toString();
     }
