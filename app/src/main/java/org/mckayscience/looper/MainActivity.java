@@ -84,7 +84,7 @@ public class MainActivity extends Activity {
 
                 //Open main menu
                 Intent i = new Intent(getApplicationContext(), MainMenuActivity.class);
-
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
                 accessTokenTracker.stopTracking();
             }
@@ -109,7 +109,7 @@ public class MainActivity extends Activity {
 
                 Intent i;
                 i = new Intent(getApplicationContext(), MainMenuActivity.class);
-
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
                 //Stop tracking this token
                 accessTokenTracker.stopTracking();

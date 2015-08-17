@@ -28,7 +28,7 @@
     <string name="to_delete">Delete</string>
     <string name="to_menu">Menu</string>
     <string name="to_save">Save</string>
-    <string name="dialog_message">Song is not saved.\n\nProceed to menu and lose all unsaved changes?</string>
+    <string name="dialog_message">Song is not saved.\n\nExit anyways?</string>
     <string name="dialog_click">OK</string>
     <string name="dialog_cancel">Cancel</string>
 

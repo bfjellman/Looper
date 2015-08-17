@@ -87,7 +87,7 @@ public class MainMenuActivity extends Activity {
      *
      * @param v View that called method
      */
-    public void guestLogout(View v) {
+    public void logout(View v) {
 
         if(!isGuest) {
             LoginManager.getInstance().logOut();
@@ -99,7 +99,7 @@ public class MainMenuActivity extends Activity {
                 .apply();
 
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         i.putExtra("EXIT", true);
         startActivity(i);
         finish();
