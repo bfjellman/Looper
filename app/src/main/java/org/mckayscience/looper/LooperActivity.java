@@ -498,6 +498,7 @@ public class LooperActivity extends Activity {
         if(isSaved) {
             Intent i = new Intent(getApplicationContext(), MainMenuActivity.class);
             startActivity(i);
+            finish();
 
         } else { //not saved, dialog them
             SaveDialogFragment dialog = new SaveDialogFragment();
@@ -745,4 +746,10 @@ public class LooperActivity extends Activity {
         if(recorder != null)
             recorder.release();//Releases resources associated with this MediaRecorder object.
     }
+
+    @Override
+    public void onBackPressed() {
+        toMenu_OnClick(null);
+    }
+
 }

@@ -26,6 +26,7 @@ public class SaveDialogFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         Intent i = new Intent(getActivity(), MainMenuActivity.class);
                         startActivity(i);
+                        getActivity().finish();
                     }
                 })
                 .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
@@ -43,7 +44,5 @@ public class SaveDialogFragment extends DialogFragment {
     public SaveDialogFragment() {
         // Required empty public constructor
     }
-
-
 
 }
