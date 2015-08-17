@@ -285,7 +285,7 @@ public class LoadActivity extends Activity {
                 .toLowerCase();
 
         //return path for new track
-        return Environment.getExternalStorageDirectory()+ "/AndroidLooper/" + userId + "/" + songName + track + ".3gpp";
+        return Environment.getExternalStorageDirectory()+ "/AndroidLooper/" + userId + "/" + songName + track + ".mp4";
     }
 
     @Override

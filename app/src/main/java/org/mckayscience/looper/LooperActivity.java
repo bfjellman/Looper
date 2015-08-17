@@ -434,7 +434,7 @@ public class LooperActivity extends Activity {
                 .toLowerCase();
 
         //return path for new track
-        return Environment.getExternalStorageDirectory()+ "/AndroidLooper/" + userId + "/" + songString + track + ".3gpp";
+        return Environment.getExternalStorageDirectory()+ "/AndroidLooper/" + userId + "/" + songString + track + ".mp4";
     }
 
     @Override
@@ -571,7 +571,7 @@ public class LooperActivity extends Activity {
                         e.printStackTrace();
                     }
                     //create a parsefile to send to cloud server
-                    ParseFile file = new ParseFile(songString + i + ".3gpp", bFile);
+                    ParseFile file = new ParseFile(songString + i + ".mp4", bFile);
                     file.saveInBackground();
                     ParseObject jobApplication = new ParseObject("SongTracks");
                     jobApplication.put("userName", sharedPreferences.getString("CurrentUser", null));
@@ -670,8 +670,10 @@ public class LooperActivity extends Activity {
 
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC); //Set audio source. (Example...Camera, phone conversation, microphone)
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP); //Set format to 3gpp
-        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC); //Encoding in advanced audio codec because it sounded cool
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4); //Set format to MPEG_4
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB); //Encoding in advanced audio codec because it sounded cool
+        recorder.setAudioEncodingBitRate(16);
+        recorder.setAudioSamplingRate(44100);
         recorder.setOutputFile(OUTPUT_FILE); //location
         recorder.prepare(); //Prepares the recorder to begin capturing and encoding data.
         recorder.start(); //Begins capturing and encoding data to the file specified with setOutputFile().
