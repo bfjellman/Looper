@@ -495,6 +495,7 @@ public class LooperActivity extends Activity {
         //If saved to to menu
         if(isSaved) {
             Intent i = new Intent(getApplicationContext(), MainMenuActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
             finish();
 
