@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="org.mckayscience.looper.LoadActivity"
-    android:background="@drawable/loadmenyscreen">
+    android:background="#2d3136">
 
     <TextView
         android:layout_width="match_parent"
@@ -13,13 +13,21 @@
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:layout_height="wrap_content"
-        android:id="@+id/load_no_songs" />
+        android:id="@+id/load_no_songs"
+        android:textStyle="bold"/>
 
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@drawable/logo"
+        android:alpha=".5" />
 
     <ListView
         android:id="@+id/user_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        style="#f7f7f7" />
 
 </RelativeLayout>

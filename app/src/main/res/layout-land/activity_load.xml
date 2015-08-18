@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="org.mckayscience.looper.LoadActivity">
+    tools:context="org.mckayscience.looper.LoadActivity"
+    android:background="#2d3136">
 
     <TextView
         android:layout_width="match_parent"
@@ -12,7 +13,8 @@
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:layout_height="wrap_content"
-        android:id="@+id/load_no_songs" />
+        android:id="@+id/load_no_songs"
+        android:textStyle="bold"/>
 
 
     <ListView
@@ -21,13 +23,13 @@
         android:layout_height="match_parent"
         />
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleHorizontal"
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/progressBar2"
+        android:id="@+id/imageView2"
+        android:src="@drawable/logo"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="35dp" />
+        android:alpha=".5" />
 
 </RelativeLayout>

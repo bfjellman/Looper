@@ -30,9 +30,9 @@
         android:layout_width="wrap_content"
         android:layout_height="100dp"
         android:id="@+id/login_button"
-        android:layout_below="@+id/info"
+        android:layout_above="@+id/imageButton3"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp" />
+        android:layout_marginBottom="69dp" />
 
     <TextView
         android:layout_width="wrap_content"
