@@ -13,7 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,12 +74,12 @@ public class MainMenuActivity extends Activity {
         //disable share button if guest - enable of not guest
         if(sharedPreferences.getString("CurrentUser", null).equals("Guest")) {
             isGuest = true;
-            ImageButton share = (ImageButton)findViewById(R.id.share_Song_Btn_ID);
+            Button share = (Button)findViewById(R.id.share_Song_Btn_ID);
             share.setEnabled(false);
         } else {
             isGuest = false;
             FacebookSdk.sdkInitialize(getApplicationContext());
-            ImageButton share = (ImageButton)findViewById(R.id.share_Song_Btn_ID);
+            Button share = (Button)findViewById(R.id.share_Song_Btn_ID);
             share.setEnabled(true);
 
         }

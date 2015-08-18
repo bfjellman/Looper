@@ -7,20 +7,9 @@
     android:background="@drawable/imgmenuland">
 
 
-    <ImageButton
-        android:background="@drawable/facebook"
-        android:layout_width="200dp"
-        android:layout_height="70dp"
-        android:clickable="true"
-        android:scaleType="fitCenter"
-        android:id="@+id/imageButton"
-        android:layout_above="@+id/login_value"
-        android:layout_alignLeft="@+id/imageButton2"
-        android:layout_alignStart="@+id/imageButton2" />
-    <ImageButton
-        android:background="@drawable/guest"
-        android:layout_width="200dp"
-        android:layout_height="70dp"
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:clickable="true"
         android:scaleType="fitCenter"
         android:text="@string/guest_button"
@@ -41,10 +30,9 @@
         android:layout_width="wrap_content"
         android:layout_height="100dp"
         android:id="@+id/login_button"
-        android:alpha="0"
         android:layout_above="@+id/imageButton2"
-        android:layout_alignLeft="@+id/imageButton"
-        android:layout_alignStart="@+id/imageButton" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="35dp" />
 
     <TextView
         android:layout_width="wrap_content"

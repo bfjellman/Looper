@@ -9,10 +9,9 @@
     tools:context="com.iinspirestudios.looperapp2.MainMenu"
     android:background="@drawable/mainmenu">
 
-    <ImageButton
-        android:background="@drawable/newsong"
-        android:layout_width="120dp"
-        android:layout_height="65dp"
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:clickable="true"
         android:scaleType="fitCenter"
         android:text="@string/main_menu_create"
@@ -23,36 +22,33 @@
         android:layout_alignParentStart="true" />
 
 
-            <ImageButton
-                android:background="@drawable/load"
-                android:layout_width="120dp"
-                android:layout_height="65dp"
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:clickable="true"
                 android:scaleType="fitCenter"
                 android:text="@string/main_menu_load"
                 android:id="@+id/load_Btn_ID"
                 android:onClick="loadSong_onClick"
-                android:layout_alignTop="@+id/share_Song_Btn_ID"
-                android:layout_toRightOf="@+id/share_Song_Btn_ID"
-                android:layout_toEndOf="@+id/share_Song_Btn_ID" />
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
 
-            <ImageButton
-                android:background="@drawable/share"
-                android:layout_width="120dp"
-                android:layout_height="65dp"
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:clickable="true"
                 android:scaleType="fitCenter"
                 android:text="@string/main_menu_share"
                 android:id="@+id/share_Song_Btn_ID"
                 android:onClick="shareSong_onClick"
                 android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/createSong_Btn_ID"
-                android:layout_toEndOf="@+id/createSong_Btn_ID" />
+                android:layout_alignLeft="@+id/guest_logout"
+                android:layout_alignStart="@+id/guest_logout" />
 
-            <ImageButton
-                android:background="@drawable/logout"
-                android:layout_width="155dp"
-                android:layout_height="70dp"
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:clickable="true"
                 android:scaleType="fitCenter"
                 android:text="@string/main_menu_logout"
@@ -72,6 +68,24 @@
         android:id="@+id/main_menu_userID"
         android:text="UserID"
         />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/load_Btn_ID"
+        android:layout_alignEnd="@+id/load_Btn_ID"
+        android:layout_marginTop="182dp" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/progressBar"
+        android:layout_toLeftOf="@+id/guest_logout"
+        android:layout_toStartOf="@+id/guest_logout"
+        android:layout_marginTop="77dp"></TableLayout>
 
 
 </RelativeLayout>
