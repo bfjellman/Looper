@@ -511,8 +511,10 @@ public class LooperActivity extends Activity {
      * @param v View object associated with the button.
      */
     public void save_OnClick(View v) {
+        Toast.makeText(LooperActivity.this, Boolean.toString(isGuest), Toast.LENGTH_SHORT).show();
 
         isSaved = true;
+
         //Testing TextView to display all songs from the user in the Song window.
         //TextView test = (TextView)findViewById(R.id.test);
         //Open database
