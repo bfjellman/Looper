@@ -25,6 +25,7 @@ public class SaveDialogFragment extends DialogFragment {
                 .setPositiveButton(R.string.dialog_click, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Intent i = new Intent(getActivity(), MainMenuActivity.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(i);
                         getActivity().finish();
                     }
