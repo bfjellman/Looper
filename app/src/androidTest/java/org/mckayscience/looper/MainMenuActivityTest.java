@@ -29,7 +29,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
     }
 
     public void testLogging() {
-        if(solo.searchText("Android Looper")) {
+        if(solo.searchText("Create")) {
             solo.clickOnButton("Logout");
         } else {
             solo.clickOnButton("Log in with Facebook");
@@ -40,8 +40,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
     }
 
     public void testCreateSongButtons() {
-        solo.clickOnButton("Create Song");
-        boolean textFound = solo.searchText("Please enter a name for the song.");
+        solo.clickOnButton("Create");
+        boolean textFound = solo.searchText("Please");
         assertTrue("Create song failed.", textFound);
     }
 
@@ -50,14 +50,14 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
         if(isGuest) {
             return;
         }
-        solo.clickOnButton("Share Song");
+        solo.clickOnButton("Share");
         boolean textFound = solo.searchText("Please enter the ID");
         assertTrue("Share failed", textFound);
     }
 
     //test rest of buttons
     public void testCreateSong() {
-        solo.clickOnText("Create Song");
+        solo.clickOnText("Create");
         Random random = new Random();
         int number = random.nextInt(100000);
         solo.enterText(0, "testSong" + number);
@@ -67,31 +67,33 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
     }
 
     public void testSaveSong() {
-        solo.clickOnText("Create Song");
+        solo.clickOnText("Create");
         Random random = new Random();
         int number = random.nextInt(100000);
         solo.enterText(0, "testSong" + number);
         solo.clickOnButton("Create");
-        solo.clickOnButton("Press to Record");
-        solo.clickOnButton("Stop");
+        solo.clickOnText("Record");
+        solo.sleep(15000);//give the emulator time to open MediaRecorder -- not necessary on Android phone.
+        solo.clickOnText("Stop");
         solo.clickOnButton("Save");
         solo.clickOnButton("Menu");
-        solo.clickOnButton(("Load Song"));
+        solo.clickOnButton(("Load"));
         boolean textFound = solo.searchText("testSong" + number);
         assertTrue("Song not found", textFound);
     }
 
     public void testLoadSong() {
-        solo.clickOnButton("Create Song");
+        solo.clickOnButton("Create");
         Random random = new Random();
         int number = random.nextInt(100000);
         solo.enterText(0, "testLoad" + number);
         solo.clickOnButton("Create");
         solo.clickOnButton("Press to Record");
-        solo.clickOnButton("Stop");
+        solo.sleep(15000); //give the emulator time to open MediaRecorder -- not necessary on Android phone.
+        solo.clickOnText("Stop");
         solo.clickOnButton("Save");
         solo.clickOnButton("Menu");
-        solo.clickOnButton("Load Song");
+        solo.clickOnButton("Load");
         solo.clickOnText("testLoad" + number);
         boolean textFound = solo.searchText("Press to Record");
         assertTrue("Load Song failed", textFound);
