@@ -41,7 +41,6 @@ public class LoadActivity extends Activity {
     private SharedPreferences sharedPreferences;
     private TextView noFile;
     private UserSongsDb db;
-    private String userId;
     private List<ParseObject> parseList;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +54,6 @@ public class LoadActivity extends Activity {
         sharedPreferences = getSharedPreferences(
                 getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
 
-        userId = sharedPreferences.getString("CurrentUser", null);
 
         if(sharedPreferences.getString("CurrentUser", null).equals("Guest")) {
             load(db, noFile);

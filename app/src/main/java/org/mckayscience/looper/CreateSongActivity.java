@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class CreateSongActivity extends Activity {
 
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
