@@ -88,7 +88,6 @@ public class LoadActivity extends Activity {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
                 if (e == null) {
-                    Toast.makeText(LoadActivity.this, "Loaded songs", Toast.LENGTH_SHORT).show();
                     parseList = list;
 
                     List<UserInfo> userSongs = db.selectUser(sharedPreferences.getString("CurrentUser", null));
@@ -241,7 +240,6 @@ public class LoadActivity extends Activity {
         for(int i = 0; i < parseList.size(); i++) {
 
             if(parseList.get(i).getString("songName").equals(sharedSong)) {
-                Toast.makeText(LoadActivity.this, "Found Song", Toast.LENGTH_SHORT).show();
 
                 ParseObject newParse = new ParseObject("SongTracks");
                 newParse.put("userName", sharedPreferences.getString("Shared", null));

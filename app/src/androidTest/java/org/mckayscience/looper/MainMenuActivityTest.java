@@ -28,21 +28,34 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
         solo.finishOpenedActivities();
     }
 
-    public void testMenuTest() {
-        solo.unlockScreen();
-        boolean textFound = solo.searchText("Android Looper");
-        assertTrue("Text Found", textFound);
+    public void testLogging() {
+        if(solo.searchText("Android Looper")) {
+            solo.clickOnButton("Logout");
+        } else {
+            solo.clickOnButton("Log in with Facebook");
+            solo.enterText(0, "android_gnzfypj_user@tfbnw.net");
+            solo.enterText(1, "testandroid");
+            solo.clickOnButton("Log In");
+        }
     }
 
     public void testCreateSongButtons() {
         solo.clickOnButton("Create Song");
         boolean textFound = solo.searchText("Please enter a name for the song.");
-        assertTrue("Create Song button exists/works", textFound);
+        assertTrue("Create song failed.", textFound);
     }
 
+    public void testShareButton() {
+        boolean isGuest = solo.searchText("Guest");
+        if(isGuest) {
+            return;
+        }
+        solo.clickOnButton("Share Song");
+        boolean textFound = solo.searchText("Please enter the ID");
+        assertTrue("Share failed", textFound);
+    }
 
     //test rest of buttons
-
     public void testCreateSong() {
         solo.clickOnText("Create Song");
         Random random = new Random();
@@ -50,7 +63,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
         solo.enterText(0, "testSong" + number);
         solo.clickOnButton("Create");
         boolean textFound = solo.searchText("testSong" + number);
-        assertTrue("Song successfully created", textFound);
+        assertTrue("Song creation failed", textFound);
     }
 
     public void testSaveSong() {
@@ -59,17 +72,34 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
         int number = random.nextInt(100000);
         solo.enterText(0, "testSong" + number);
         solo.clickOnButton("Create");
+        solo.clickOnButton("Press to Record");
+        solo.clickOnButton("Stop");
         solo.clickOnButton("Save");
         solo.clickOnButton("Menu");
         solo.clickOnButton(("Load Song"));
         boolean textFound = solo.searchText("testSong" + number);
-        assertTrue("Song was saved", textFound);
+        assertTrue("Song not found", textFound);
     }
 
+    public void testLoadSong() {
+        solo.clickOnButton("Create Song");
+        Random random = new Random();
+        int number = random.nextInt(100000);
+        solo.enterText(0, "testLoad" + number);
+        solo.clickOnButton("Create");
+        solo.clickOnButton("Press to Record");
+        solo.clickOnButton("Stop");
+        solo.clickOnButton("Save");
+        solo.clickOnButton("Menu");
+        solo.clickOnButton("Load Song");
+        solo.clickOnText("testLoad" + number);
+        boolean textFound = solo.searchText("Press to Record");
+        assertTrue("Load Song failed", textFound);
+    }
 
-
-
-
-
-
+    public void testLogout() {
+        solo.clickOnButton("Logout");
+        boolean textFound = solo.searchText("Guest");
+        assertTrue("Logout failed", textFound);
+    }
 }

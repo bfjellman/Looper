@@ -96,8 +96,6 @@ public class LooperActivity extends Activity {
             isGuest = false;
         }
 
-        isSaved = false;
-
         currentTrack = 0;
         mediaPlayer = new MediaPlayer[5];
         tracks = new Track[TOTAL_TRACKS];
@@ -511,9 +509,16 @@ public class LooperActivity extends Activity {
      * @param v View object associated with the button.
      */
     public void save_OnClick(View v) {
-        Toast.makeText(LooperActivity.this, Boolean.toString(isGuest), Toast.LENGTH_SHORT).show();
-
         isSaved = true;
+        boolean hasTracks = false;
+        for(int i = 0; i < TOTAL_TRACKS; i++) {
+            if(tracks[i].hasRecording)
+                hasTracks = true;
+        }
+        if(!hasTracks) {
+            Toast.makeText(LooperActivity.this, "No tracks recorded, not saved.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         //Testing TextView to display all songs from the user in the Song window.
         //TextView test = (TextView)findViewById(R.id.test);
