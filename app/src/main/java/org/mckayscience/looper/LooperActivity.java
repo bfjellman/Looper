@@ -535,7 +535,7 @@ public class LooperActivity extends Activity {
             //remove previous song entries
             ParseQuery<ParseObject> query = ParseQuery.getQuery("SongTracks");
             query.whereEqualTo("userName", sharedPreferences.getString("CurrentUser", null));
-            query.whereEqualTo("songName", songString);
+            query.whereEqualTo("songName", songName.getText().toString());
             query.findInBackground(new FindCallback<ParseObject>() {
                 @Override
                 public void done(List<ParseObject> list, ParseException e) {
@@ -578,7 +578,7 @@ public class LooperActivity extends Activity {
                     file.saveInBackground();
                     ParseObject jobApplication = new ParseObject("SongTracks");
                     jobApplication.put("userName", sharedPreferences.getString("CurrentUser", null));
-                    jobApplication.put("songName", songString);
+                    jobApplication.put("songName", songName.getText().toString());
                     jobApplication.put("track", i);
                     jobApplication.put("userSongTrack", file);
                     jobApplication.saveInBackground();
