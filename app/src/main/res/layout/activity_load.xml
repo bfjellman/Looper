@@ -14,7 +14,8 @@
         android:paddingBottom="5dp"
         android:layout_height="wrap_content"
         android:id="@+id/load_no_songs"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        style="#f7f7f7" />
 
 
     <ImageView
