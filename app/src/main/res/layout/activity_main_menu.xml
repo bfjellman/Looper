@@ -9,53 +9,18 @@
     tools:context="com.iinspirestudios.looperapp2.MainMenu"
     android:background="@drawable/mainmenu">
 
+
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:scaleType="fitCenter"
-        android:text="@string/main_menu_create"
-        android:id="@+id/createSong_Btn_ID"
-        android:onClick="createSong_onClick"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:scaleType="fitCenter"
-                android:text="@string/main_menu_load"
-                android:id="@+id/load_Btn_ID"
-                android:onClick="loadSong_onClick"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:scaleType="fitCenter"
-                android:text="@string/main_menu_share"
-                android:id="@+id/share_Song_Btn_ID"
-                android:onClick="shareSong_onClick"
-                android:layout_alignParentTop="true"
-                android:layout_alignLeft="@+id/guest_logout"
-                android:layout_alignStart="@+id/guest_logout" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:scaleType="fitCenter"
-                android:text="@string/main_menu_logout"
-                android:id="@+id/guest_logout"
-                android:onClick="logout"
-                android:layout_above="@+id/main_menu_userID"
-                android:layout_centerInParent="true" />
+        android:text="@string/main_menu_logout"
+        android:id="@+id/guest_logout"
+        android:onClick="logout"
+        android:textStyle="bold"
+        android:layout_above="@+id/main_menu_userID"
+        android:layout_centerInParent="true" />
 
 
 
@@ -65,27 +30,60 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:textSize="16dp"
+        android:textStyle="bold"
         android:id="@+id/main_menu_userID"
         android:text="UserID"
         />
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/load_Btn_ID"
-        android:layout_alignEnd="@+id/load_Btn_ID"
-        android:layout_marginTop="182dp" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerInParent="true"
+        android:gravity="top|center_horizontal">
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/progressBar"
-        android:layout_toLeftOf="@+id/guest_logout"
-        android:layout_toStartOf="@+id/guest_logout"
-        android:layout_marginTop="77dp"></TableLayout>
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:scaleType="fitCenter"
+            android:text="@string/main_menu_create"
+            android:id="@+id/createSong_Btn_ID"
+            android:onClick="createSong_onClick"
+            android:textStyle="bold"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:alpha="1" />
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:scaleType="fitCenter"
+            android:text="@string/main_menu_load"
+            android:id="@+id/load_Btn_ID"
+            android:onClick="loadSong_onClick"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textStyle="bold"
+            />
+
+        <Button
+            android:textStyle="bold"
+
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:scaleType="fitCenter"
+            android:text="@string/main_menu_share"
+            android:id="@+id/share_Song_Btn_ID"
+            android:onClick="shareSong_onClick"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+    </LinearLayout>
 
 
 </RelativeLayout>

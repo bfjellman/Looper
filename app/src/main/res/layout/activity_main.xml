@@ -4,10 +4,10 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
-    android:background="@drawable/imgmenu">
+    android:background="@drawable/loginjpeg">
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:scaleType="fitCenter"
@@ -15,6 +15,7 @@
         android:onClick="loginAsGuest"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:textStyle="bold"
         android:id="@+id/imageButton3" />
 
     <TextView
@@ -29,14 +30,15 @@
         android:layout_width="wrap_content"
         android:layout_height="100dp"
         android:id="@+id/login_button"
-        android:layout_marginTop="136dp"
         android:layout_below="@+id/info"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/login_value"
+        android:text="song_name_text"
         android:layout_below="@+id/login_button"
         android:layout_marginTop="30dp"
         android:layout_alignParentLeft="true"
