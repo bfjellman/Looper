@@ -7,7 +7,7 @@
     android:background="@drawable/loginjpeg">
 
     <Button
-        android:layout_width="100dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:scaleType="fitCenter"
@@ -15,6 +15,7 @@
         android:onClick="loginAsGuest"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:textSize="24dp"
         android:textStyle="bold"
         android:id="@+id/imageButton3" />
 
