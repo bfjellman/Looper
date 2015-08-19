@@ -7,7 +7,7 @@ import com.robotium.solo.Solo;
 import java.util.Random;
 
 /**
- * Created by bfjel on 8/17/2015.
+ * Automated Robotium tests.
  */
 public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 
@@ -28,6 +28,9 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
         solo.finishOpenedActivities();
     }
 
+    /**
+     * Test logging in.
+     */
     public void testLogging() {
         if(solo.searchText("Create")) {
             solo.clickOnButton("Logout");
@@ -39,12 +42,18 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
         }
     }
 
+    /**
+     * Test Create song button.
+     */
     public void testCreateSongButtons() {
         solo.clickOnButton("Create");
         boolean textFound = solo.searchText("Please");
         assertTrue("Create song failed.", textFound);
     }
 
+    /**
+     * Test Share button.
+     */
     public void testShareButton() {
         boolean isGuest = solo.searchText("Guest");
         if(isGuest) {
@@ -55,7 +64,9 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
         assertTrue("Share failed", textFound);
     }
 
-    //test rest of buttons
+    /**
+     * Test creating a song.
+     */
     public void testCreateSong() {
         solo.clickOnText("Create");
         Random random = new Random();
@@ -66,6 +77,9 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
         assertTrue("Song creation failed", textFound);
     }
 
+    /** Test saving a song.
+     *
+     */
     public void testSaveSong() {
         solo.clickOnText("Create");
         Random random = new Random();
@@ -82,6 +96,9 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
         assertTrue("Song not found", textFound);
     }
 
+    /**
+     * Test loading a song.
+     */
     public void testLoadSong() {
         solo.clickOnButton("Create");
         Random random = new Random();
@@ -99,6 +116,9 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
         assertTrue("Load Song failed", textFound);
     }
 
+    /**
+     * Test logging out.
+     */
     public void testLogout() {
         solo.clickOnButton("Logout");
         boolean textFound = solo.searchText("Guest");

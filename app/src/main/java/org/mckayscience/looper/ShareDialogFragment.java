@@ -35,6 +35,12 @@ public class ShareDialogFragment extends DialogFragment {
 
                         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(
                                 getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+
+                        if (input.getText().toString().equals(sharedPreferences.getString("CurrentUser", null))) {
+                            Toast.makeText(getActivity(), "While it's fun to share with yourself, it's more fun to share with others!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
                         sharedPreferences
                                 .edit()
                                 .putString("Shared", input.getText().toString())
