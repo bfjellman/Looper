@@ -52,13 +52,13 @@ public class LooperActivity extends Activity {
     private int currentTrack;
     /** Song name */
     private String songString;
+    /** Shared preferences **/
     private SharedPreferences sharedPreferences;
-
+    /** Set if the boolean is a guest **/
     private boolean isGuest;
-
-    //track whether recordings exist per track
+    /** An array of tracks to check status for record and playback **/
     private Track[] tracks;
-
+    /** Whether or not the song is saved **/
     private boolean isSaved;
 
     //Record/Play Buttons
@@ -507,6 +507,7 @@ public class LooperActivity extends Activity {
 
     /**
      * Onclick method for button click to Save the current song.
+     *
      * @param v View object associated with the button.
      */
     public void save_OnClick(View v) {
