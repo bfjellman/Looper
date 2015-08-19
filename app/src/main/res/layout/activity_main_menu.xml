@@ -58,6 +58,19 @@
             android:alpha="1" />
 
         <Button
+            android:textStyle="bold"
+
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:scaleType="fitCenter"
+            android:text="@string/main_menu_share"
+            android:id="@+id/share_Song_Btn_ID"
+            android:onClick="shareSong_onClick"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <Button
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -70,19 +83,6 @@
             android:layout_alignParentEnd="true"
             android:textStyle="bold"
             />
-
-        <Button
-            android:textStyle="bold"
-
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:scaleType="fitCenter"
-            android:text="@string/main_menu_share"
-            android:id="@+id/share_Song_Btn_ID"
-            android:onClick="shareSong_onClick"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
     </LinearLayout>
 
 
